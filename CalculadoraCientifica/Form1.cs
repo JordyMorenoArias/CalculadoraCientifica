@@ -192,6 +192,7 @@ namespace CalculadoraCientifica
 
                 operacion = Calculadora.BuscarParentesis(operacion);
                 operacion = Calculadora.CalcularFactorial(operacion);
+                operacion = Calculadora.ElevaciónDeUnaPotencia(operacion);
 
                 // Una vez resueltos los paréntesis, calcula el resultado final
                 decimal resultadoFinal = Calculadora.ResolverOperacion(operacion);
@@ -241,7 +242,6 @@ namespace CalculadoraCientifica
                 for (int i = 0; i < closeParenthesesNeeded; i++)
                 {
                     txtBoxContenedor.Text += ")";
-                    txtFormula.Text += ")";
                 }
             }
 
@@ -266,7 +266,7 @@ namespace CalculadoraCientifica
 
         private void btnPunto_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += ".";
+            txtBoxContenedor.Text += ",";
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -278,5 +278,36 @@ namespace CalculadoraCientifica
         {
             txtBoxContenedor.Text += "(1/";
         }
+
+        private void btnXsobreY_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                for (int i = txtBoxContenedor.Text.Length - 1; i >= 0; i--)
+                {
+                    if (char.IsDigit(txtBoxContenedor.Text[i]))
+                    {
+                        txtBoxContenedor.Text += "^";
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void btnXsobre2_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                for (int i = txtBoxContenedor.Text.Length - 1; i >= 0; i--)
+                {
+                    if (char.IsDigit(txtBoxContenedor.Text[i]))
+                    {
+                        txtBoxContenedor.Text += "^2";
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 }

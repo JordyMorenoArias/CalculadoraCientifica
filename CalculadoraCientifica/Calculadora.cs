@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
+using System.Reflection;
 
 namespace CalculadoraCientifica
 {
@@ -31,7 +32,7 @@ namespace CalculadoraCientifica
         public static decimal Calcular(List<string> expresiones, List<char> operadores)
         {
             // Convertir todas las expresiones a números decimales
-            List<decimal> numeros = expresiones.Select(exp => decimal.Parse(exp, System.Globalization.CultureInfo.InvariantCulture)).ToList();
+            List<decimal> numeros = expresiones.Select(exp => decimal.Parse(exp)).ToList();
 
             if (operadores.Count == expresiones.Count)
             {
@@ -91,20 +92,19 @@ namespace CalculadoraCientifica
             return total;
         }
 
-
         public static List<string> ObtenerExpresiones(string entrada)
         {
-            entrada = entrada.Replace(',', '.');
+
             List<string> expresiones = new List<string>();
             string numero = "";
             bool decimalEncontrado = false;
 
             foreach (char c in entrada)
             {
-                if (char.IsDigit(c) || (c == '.' && !decimalEncontrado))
+                if (char.IsDigit(c) || (c == ',' && !decimalEncontrado))
                 {
                     numero += c; // Agregar dígitos consecutivos para formar el número
-                    if (c == '.')
+                    if (c == ',')
                         decimalEncontrado = true; // Marcar que se encontró un punto decimal
                 }
                 else
@@ -167,7 +167,8 @@ namespace CalculadoraCientifica
                     // Extrae la operación dentro del paréntesis
                     string operacionDentroParentesis = operacion.Substring(start + 1, end - start - 1);
 
-                    operacionDentroParentesis = Calculadora.CalcularFactorial(operacionDentroParentesis);
+                    operacionDentroParentesis = CalcularFactorial(operacionDentroParentesis);
+                    operacionDentroParentesis = ElevaciónDeUnaPotencia(operacionDentroParentesis);
 
                     // Calcula el resultado de la operación dentro del paréntesis
                     decimal resultadoParentesis = ResolverOperacion(operacionDentroParentesis);
@@ -178,11 +179,11 @@ namespace CalculadoraCientifica
             }
 
             return operacion;
+
         }
 
         internal static string CalcularFactorial(string operacion)
         {
-            operacion = operacion.Replace(',', '.');
 
             for (int i = 0; i < operacion.Length; i++)
             {
@@ -192,14 +193,14 @@ namespace CalculadoraCientifica
                     int j = i - 1;
 
                     // Recorre hacia atrás para encontrar el número anterior al '!'
-                    while (j >= 0 && (char.IsDigit(operacion[j]) || operacion[j] == '.'))
+                    while (j >= 0 && (char.IsDigit(operacion[j]) || operacion[j] == ','))
                     {
                         valorCalcular = operacion[j] + valorCalcular;
                         j--;
                     }
 
                     // Calcula el factorial del número extraído
-                    decimal resultado = FactorialRecursivo(decimal.Parse(valorCalcular, System.Globalization.CultureInfo.InvariantCulture));
+                    decimal resultado = FactorialRecursivo(decimal.Parse(valorCalcular));
                     operacion = operacion.Substring(0, j + 1) + resultado.ToString() + operacion.Substring(i + 1);
 
                     // Reinicia el índice para evitar saltar partes de la cadena modificada
@@ -226,6 +227,53 @@ namespace CalculadoraCientifica
             {
                 return (decimal)SpecialFunctions.Gamma((double)number + 1);
             }
+        }
+
+        internal static string ElevaciónDeUnaPotencia(string operacion)
+        {
+            string baseNumber = "";
+            string exponiente = "";
+
+            for (int i = 0; i < operacion.Length; i++)
+            {
+                if (operacion[i] == '^')
+                {
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        if (char.IsDigit(operacion[j]) || operacion[j] == ',')
+                        {
+                            baseNumber = operacion[j].ToString() + baseNumber;
+                        }
+                        if(operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/')
+                        {
+                            break;
+                        }
+                    }
+
+                    for (int j = i + 1; j < operacion.Length; j++)
+                    {
+                        if (char.IsDigit(operacion[j]) || operacion[j] == ',')
+                        {
+                            exponiente += operacion[j].ToString();
+                        }
+                        if (operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/')
+                        {
+                            break;
+                        }
+                    }
+
+                    double a = double.Parse(baseNumber);
+                    double n = double.Parse(exponiente);
+
+                    double resultado = Math.Pow(a, n);
+
+                    return operacion = operacion.Replace($"{baseNumber}^{exponiente}", resultado.ToString());
+                   
+                }
+            }
+
+            return operacion;
+
         }
 
     }

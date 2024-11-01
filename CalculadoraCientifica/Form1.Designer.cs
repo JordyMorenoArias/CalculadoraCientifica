@@ -35,7 +35,7 @@
             btnExp = new Button();
             btnValorAbsoluto = new Button();
             btnInversoMultiplicativo = new Button();
-            btnx2 = new Button();
+            btnXsobre2 = new Button();
             btnDivisions = new Button();
             button12 = new Button();
             btnParéntesisApertura = new Button();
@@ -44,7 +44,7 @@
             btnNine = new Button();
             btnEight = new Button();
             btnSeven = new Button();
-            button25 = new Button();
+            btnXsobreY = new Button();
             btnSix = new Button();
             btnFive = new Button();
             btnFour = new Button();
@@ -53,7 +53,7 @@
             btnTwo = new Button();
             btnOne = new Button();
             button35 = new Button();
-            btnPunto = new Button();
+            btnComa = new Button();
             btnZero = new Button();
             button39 = new Button();
             button40 = new Button();
@@ -138,15 +138,16 @@
             btnInversoMultiplicativo.UseVisualStyleBackColor = true;
             btnInversoMultiplicativo.Click += btnInversoMultiplicativo_Click;
             // 
-            // btnx2
+            // btnXsobre2
             // 
-            btnx2.Font = new Font("Century Gothic", 10.2F);
-            btnx2.Location = new Point(21, 206);
-            btnx2.Name = "btnx2";
-            btnx2.Size = new Size(87, 46);
-            btnx2.TabIndex = 5;
-            btnx2.Text = "x^2";
-            btnx2.UseVisualStyleBackColor = true;
+            btnXsobre2.Font = new Font("Century Gothic", 10.2F);
+            btnXsobre2.Location = new Point(21, 206);
+            btnXsobre2.Name = "btnXsobre2";
+            btnXsobre2.Size = new Size(87, 46);
+            btnXsobre2.TabIndex = 5;
+            btnXsobre2.Text = "x^2";
+            btnXsobre2.UseVisualStyleBackColor = true;
+            btnXsobre2.Click += btnXsobre2_Click;
             // 
             // btnDivisions
             // 
@@ -235,15 +236,16 @@
             btnSeven.UseVisualStyleBackColor = true;
             btnSeven.Click += btnSeven_Click;
             // 
-            // button25
+            // btnXsobreY
             // 
-            button25.Font = new Font("Century Gothic", 10.2F);
-            button25.Location = new Point(21, 314);
-            button25.Name = "button25";
-            button25.Size = new Size(87, 46);
-            button25.TabIndex = 20;
-            button25.Text = "x^y";
-            button25.UseVisualStyleBackColor = true;
+            btnXsobreY.Font = new Font("Century Gothic", 10.2F);
+            btnXsobreY.Location = new Point(21, 314);
+            btnXsobreY.Name = "btnXsobreY";
+            btnXsobreY.Size = new Size(87, 46);
+            btnXsobreY.TabIndex = 20;
+            btnXsobreY.Text = "x^y";
+            btnXsobreY.UseVisualStyleBackColor = true;
+            btnXsobreY.Click += btnXsobreY_Click;
             // 
             // btnSix
             // 
@@ -331,16 +333,16 @@
             button35.Text = "log";
             button35.UseVisualStyleBackColor = true;
             // 
-            // btnPunto
+            // btnComa
             // 
-            btnPunto.Font = new Font("Century Gothic", 10.2F);
-            btnPunto.Location = new Point(300, 470);
-            btnPunto.Name = "btnPunto";
-            btnPunto.Size = new Size(87, 46);
-            btnPunto.TabIndex = 38;
-            btnPunto.Text = ".";
-            btnPunto.UseVisualStyleBackColor = true;
-            btnPunto.Click += btnPunto_Click;
+            btnComa.Font = new Font("Century Gothic", 10.2F);
+            btnComa.Location = new Point(300, 470);
+            btnComa.Name = "btnComa";
+            btnComa.Size = new Size(87, 46);
+            btnComa.TabIndex = 38;
+            btnComa.Text = ",";
+            btnComa.UseVisualStyleBackColor = true;
+            btnComa.Click += btnPunto_Click;
             // 
             // btnZero
             // 
@@ -473,7 +475,7 @@
             Controls.Add(btnMultiplications);
             Controls.Add(btnIgual);
             Controls.Add(btnDelete);
-            Controls.Add(btnPunto);
+            Controls.Add(btnComa);
             Controls.Add(btnZero);
             Controls.Add(button39);
             Controls.Add(button40);
@@ -488,7 +490,7 @@
             Controls.Add(btnNine);
             Controls.Add(btnEight);
             Controls.Add(btnSeven);
-            Controls.Add(button25);
+            Controls.Add(btnXsobreY);
             Controls.Add(btnDivisions);
             Controls.Add(button12);
             Controls.Add(btnParéntesisApertura);
@@ -497,13 +499,13 @@
             Controls.Add(btnExp);
             Controls.Add(btnValorAbsoluto);
             Controls.Add(btnInversoMultiplicativo);
-            Controls.Add(btnx2);
+            Controls.Add(btnXsobre2);
             Controls.Add(btnCE);
             Controls.Add(btnE);
             Controls.Add(btnRaiz);
             Controls.Add(btn2nd);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Calculadora Científica";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -519,7 +521,7 @@
         private Button btnExp;
         private Button btnValorAbsoluto;
         private Button btnInversoMultiplicativo;
-        private Button btnx2;
+        private Button btnXsobre2;
         private Button btnDivisions;
         private Button button12;
         private Button btnParéntesisApertura;
@@ -528,7 +530,7 @@
         private Button btnNine;
         private Button btnEight;
         private Button btnSeven;
-        private Button button25;
+        private Button btnXsobreY;
         private Button btnSix;
         private Button btnFive;
         private Button btnFour;
@@ -537,7 +539,7 @@
         private Button btnTwo;
         private Button btnOne;
         private Button button35;
-        private Button btnPunto;
+        private Button btnComa;
         private Button btnZero;
         private Button button39;
         private Button button40;
