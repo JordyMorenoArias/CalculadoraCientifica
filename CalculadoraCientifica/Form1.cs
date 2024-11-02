@@ -98,7 +98,7 @@ namespace CalculadoraCientifica
                 // Verificar si el último carácter es +, - o *
                 if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
                 {
-                    // Reemplazar el último carácter con "*"
+                    // Reemplazar el último carácter con "-"
                     txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1) + "- ";
                 }
                 else
@@ -109,7 +109,7 @@ namespace CalculadoraCientifica
             else
             {
                 // Si está vacío, agregar "/"
-                txtBoxContenedor.Text += " - ";
+                txtBoxContenedor.Text += "0 - ";
 
             }
         }
@@ -193,6 +193,7 @@ namespace CalculadoraCientifica
                 operacion = Calculadora.BuscarParentesis(operacion);
                 operacion = Calculadora.CalcularFactorial(operacion);
                 operacion = Calculadora.ElevaciónDeUnaPotencia(operacion);
+                operacion = Calculadora.CalculateExponente(operacion);
 
                 // Una vez resueltos los paréntesis, calcula el resultado final
                 decimal resultadoFinal = Calculadora.ResolverOperacion(operacion);
@@ -200,14 +201,17 @@ namespace CalculadoraCientifica
             }
             catch (Exception ex)
             {
-                txtFormula.Text = "";
-                txtBoxContenedor.Text = "Entrada no Valida";
+                txtFormula.Text = "Entrada no Valida";
             }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtFormula.Text))
+            {
+                txtFormula.Text = "";
+            }
+            else if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
             {
                 txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1);
             }
@@ -266,12 +270,24 @@ namespace CalculadoraCientifica
 
         private void btnPunto_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += ",";
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                {
+                    txtBoxContenedor.Text += ",";
+                }
+            }
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "!";
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                {
+                    txtBoxContenedor.Text += "!";
+                }
+            }
         }
 
         private void btnInversoMultiplicativo_Click(object sender, EventArgs e)
@@ -283,13 +299,9 @@ namespace CalculadoraCientifica
         {
             if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
             {
-                for (int i = txtBoxContenedor.Text.Length - 1; i >= 0; i--)
+                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
                 {
-                    if (char.IsDigit(txtBoxContenedor.Text[i]))
-                    {
-                        txtBoxContenedor.Text += "^";
-                        break;
-                    }
+                    txtBoxContenedor.Text += "^";
                 }
             }
         }
@@ -298,16 +310,22 @@ namespace CalculadoraCientifica
         {
             if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
             {
-                for (int i = txtBoxContenedor.Text.Length - 1; i >= 0; i--)
+                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
                 {
-                    if (char.IsDigit(txtBoxContenedor.Text[i]))
-                    {
-                        txtBoxContenedor.Text += "^2";
-                        break;
-                    }
+                    txtBoxContenedor.Text += "^2";
                 }
             }
         }
 
+        private void btnExp_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                {
+                    txtBoxContenedor.Text += ",e+";
+                }
+            }
+        }
     }
 }

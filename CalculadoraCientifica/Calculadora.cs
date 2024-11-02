@@ -34,16 +34,6 @@ namespace CalculadoraCientifica
             // Convertir todas las expresiones a números decimales
             List<decimal> numeros = expresiones.Select(exp => decimal.Parse(exp)).ToList();
 
-            if (operadores.Count == expresiones.Count)
-            {
-                if (operadores[0] == '-')
-                {
-                    // Si el primer operador es '-', asumimos que el primer número es negativo
-                    numeros[0] = -numeros[0];
-                    operadores.RemoveAt(0); // Eliminar el operador inicial '-'
-                }
-            }
-
             // Primer paso: manejar multiplicaciones y divisiones
             for (int i = 0; i < operadores.Count; i++)
             {
@@ -169,6 +159,7 @@ namespace CalculadoraCientifica
 
                     operacionDentroParentesis = CalcularFactorial(operacionDentroParentesis);
                     operacionDentroParentesis = ElevaciónDeUnaPotencia(operacionDentroParentesis);
+                    operacionDentroParentesis = CalculateExponente(operacionDentroParentesis);
 
                     // Calcula el resultado de la operación dentro del paréntesis
                     decimal resultadoParentesis = ResolverOperacion(operacionDentroParentesis);
@@ -274,6 +265,66 @@ namespace CalculadoraCientifica
 
             return operacion;
 
+        }
+
+        internal static string CalculateExponente(string operacion)
+        {
+
+            for (int i = 0; i < operacion.Length; i++)
+            {
+                string numberBase = "";
+                string exponente = "";
+                bool baseIsDecimal = false;
+
+                if (operacion[i] == 'e')
+                {
+                    for(int j = i - 2; j >= 0; j--)
+                    {
+                        if(char.IsDigit(operacion[j])) 
+                            numberBase = operacion[j].ToString() + numberBase;
+
+                        else if (operacion[j] == ',')
+                        {
+                            numberBase = operacion[j].ToString() + numberBase;
+                            baseIsDecimal = true;
+                        }
+
+                        if (operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/') 
+                            break;
+                    }
+
+                    for (int j = i + 2; j < operacion.Length; j++)
+                    {
+                        if (char.IsDigit(operacion[j]))
+                            exponente += operacion[j].ToString();
+
+                        if (operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/')
+                            break;
+                    }
+
+                    string resultado = numberBase;
+                    resultado = resultado.Replace(",", "");
+
+                    if (baseIsDecimal)
+                    {
+                        for (int j = 0; j < int.Parse(exponente) - 1; j++)
+                        {
+                            resultado += '0';
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < int.Parse(exponente); j++)
+                        {
+                            resultado += '0';
+                        }
+                    }
+
+                    operacion = operacion.Replace(numberBase + ",e+" + exponente, resultado);
+                }
+            }
+
+            return operacion;
         }
 
     }

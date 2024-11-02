@@ -80,7 +80,7 @@
             // btnRaiz
             // 
             btnRaiz.Font = new Font("Century Gothic", 10.2F);
-            btnRaiz.Location = new Point(114, 154);
+            btnRaiz.Location = new Point(114, 155);
             btnRaiz.Name = "btnRaiz";
             btnRaiz.Size = new Size(87, 46);
             btnRaiz.TabIndex = 1;
@@ -90,7 +90,7 @@
             // btnE
             // 
             btnE.Font = new Font("Century Gothic", 10.2F);
-            btnE.Location = new Point(207, 154);
+            btnE.Location = new Point(207, 155);
             btnE.Name = "btnE";
             btnE.Size = new Size(87, 46);
             btnE.TabIndex = 2;
@@ -100,7 +100,7 @@
             // btnCE
             // 
             btnCE.Font = new Font("Century Gothic", 10.2F);
-            btnCE.Location = new Point(300, 154);
+            btnCE.Location = new Point(300, 155);
             btnCE.Name = "btnCE";
             btnCE.Size = new Size(87, 46);
             btnCE.TabIndex = 3;
@@ -110,17 +110,18 @@
             // btnExp
             // 
             btnExp.Font = new Font("Century Gothic", 10.2F);
-            btnExp.Location = new Point(300, 206);
+            btnExp.Location = new Point(300, 207);
             btnExp.Name = "btnExp";
             btnExp.Size = new Size(87, 46);
             btnExp.TabIndex = 8;
             btnExp.Text = "exp";
             btnExp.UseVisualStyleBackColor = true;
+            btnExp.Click += btnExp_Click;
             // 
             // btnValorAbsoluto
             // 
             btnValorAbsoluto.Font = new Font("Century Gothic", 10.2F);
-            btnValorAbsoluto.Location = new Point(207, 206);
+            btnValorAbsoluto.Location = new Point(207, 207);
             btnValorAbsoluto.Name = "btnValorAbsoluto";
             btnValorAbsoluto.Size = new Size(87, 46);
             btnValorAbsoluto.TabIndex = 7;
@@ -130,7 +131,7 @@
             // btnInversoMultiplicativo
             // 
             btnInversoMultiplicativo.Font = new Font("Century Gothic", 10.2F);
-            btnInversoMultiplicativo.Location = new Point(114, 206);
+            btnInversoMultiplicativo.Location = new Point(114, 207);
             btnInversoMultiplicativo.Name = "btnInversoMultiplicativo";
             btnInversoMultiplicativo.Size = new Size(87, 46);
             btnInversoMultiplicativo.TabIndex = 6;
@@ -152,7 +153,7 @@
             // btnDivisions
             // 
             btnDivisions.Font = new Font("Century Gothic", 10.2F);
-            btnDivisions.Location = new Point(393, 262);
+            btnDivisions.Location = new Point(393, 263);
             btnDivisions.Name = "btnDivisions";
             btnDivisions.Size = new Size(87, 46);
             btnDivisions.TabIndex = 14;
@@ -163,7 +164,7 @@
             // button12
             // 
             button12.Font = new Font("Century Gothic", 10.2F);
-            button12.Location = new Point(300, 262);
+            button12.Location = new Point(300, 263);
             button12.Name = "button12";
             button12.Size = new Size(87, 46);
             button12.TabIndex = 13;
@@ -174,7 +175,7 @@
             // btnParéntesisApertura
             // 
             btnParéntesisApertura.Font = new Font("Century Gothic", 10.2F);
-            btnParéntesisApertura.Location = new Point(114, 262);
+            btnParéntesisApertura.Location = new Point(114, 263);
             btnParéntesisApertura.Name = "btnParéntesisApertura";
             btnParéntesisApertura.Size = new Size(87, 46);
             btnParéntesisApertura.TabIndex = 12;
@@ -185,7 +186,7 @@
             // btnParéntesisCierre
             // 
             btnParéntesisCierre.Font = new Font("Century Gothic", 10.2F);
-            btnParéntesisCierre.Location = new Point(207, 262);
+            btnParéntesisCierre.Location = new Point(207, 263);
             btnParéntesisCierre.Name = "btnParéntesisCierre";
             btnParéntesisCierre.Size = new Size(87, 46);
             btnParéntesisCierre.TabIndex = 11;
@@ -206,7 +207,7 @@
             // btnNine
             // 
             btnNine.Font = new Font("Century Gothic", 10.2F);
-            btnNine.Location = new Point(300, 314);
+            btnNine.Location = new Point(300, 315);
             btnNine.Name = "btnNine";
             btnNine.Size = new Size(87, 46);
             btnNine.TabIndex = 23;
@@ -217,7 +218,7 @@
             // btnEight
             // 
             btnEight.Font = new Font("Century Gothic", 10.2F);
-            btnEight.Location = new Point(207, 314);
+            btnEight.Location = new Point(207, 315);
             btnEight.Name = "btnEight";
             btnEight.Size = new Size(87, 46);
             btnEight.TabIndex = 22;
@@ -228,7 +229,7 @@
             // btnSeven
             // 
             btnSeven.Font = new Font("Century Gothic", 10.2F);
-            btnSeven.Location = new Point(114, 314);
+            btnSeven.Location = new Point(114, 315);
             btnSeven.Name = "btnSeven";
             btnSeven.Size = new Size(87, 46);
             btnSeven.TabIndex = 21;
@@ -250,7 +251,7 @@
             // btnSix
             // 
             btnSix.Font = new Font("Century Gothic", 10.2F);
-            btnSix.Location = new Point(300, 366);
+            btnSix.Location = new Point(300, 367);
             btnSix.Name = "btnSix";
             btnSix.Size = new Size(87, 46);
             btnSix.TabIndex = 28;
@@ -261,7 +262,7 @@
             // btnFive
             // 
             btnFive.Font = new Font("Century Gothic", 10.2F);
-            btnFive.Location = new Point(207, 366);
+            btnFive.Location = new Point(207, 367);
             btnFive.Name = "btnFive";
             btnFive.Size = new Size(87, 46);
             btnFive.TabIndex = 27;
@@ -272,7 +273,7 @@
             // btnFour
             // 
             btnFour.Font = new Font("Century Gothic", 10.2F);
-            btnFour.Location = new Point(114, 366);
+            btnFour.Location = new Point(114, 367);
             btnFour.Name = "btnFour";
             btnFour.Size = new Size(87, 46);
             btnFour.TabIndex = 26;
@@ -293,7 +294,7 @@
             // btnThree
             // 
             btnThree.Font = new Font("Century Gothic", 10.2F);
-            btnThree.Location = new Point(300, 418);
+            btnThree.Location = new Point(300, 419);
             btnThree.Name = "btnThree";
             btnThree.Size = new Size(87, 46);
             btnThree.TabIndex = 33;
@@ -304,7 +305,7 @@
             // btnTwo
             // 
             btnTwo.Font = new Font("Century Gothic", 10.2F);
-            btnTwo.Location = new Point(207, 418);
+            btnTwo.Location = new Point(207, 419);
             btnTwo.Name = "btnTwo";
             btnTwo.Size = new Size(87, 46);
             btnTwo.TabIndex = 32;
@@ -315,7 +316,7 @@
             // btnOne
             // 
             btnOne.Font = new Font("Century Gothic", 10.2F);
-            btnOne.Location = new Point(114, 418);
+            btnOne.Location = new Point(114, 419);
             btnOne.Name = "btnOne";
             btnOne.Size = new Size(87, 46);
             btnOne.TabIndex = 31;
@@ -336,7 +337,7 @@
             // btnComa
             // 
             btnComa.Font = new Font("Century Gothic", 10.2F);
-            btnComa.Location = new Point(300, 470);
+            btnComa.Location = new Point(300, 471);
             btnComa.Name = "btnComa";
             btnComa.Size = new Size(87, 46);
             btnComa.TabIndex = 38;
@@ -347,7 +348,7 @@
             // btnZero
             // 
             btnZero.Font = new Font("Century Gothic", 10.2F);
-            btnZero.Location = new Point(207, 470);
+            btnZero.Location = new Point(207, 471);
             btnZero.Name = "btnZero";
             btnZero.Size = new Size(87, 46);
             btnZero.TabIndex = 37;
@@ -358,7 +359,7 @@
             // button39
             // 
             button39.Font = new Font("Century Gothic", 10.2F);
-            button39.Location = new Point(114, 470);
+            button39.Location = new Point(114, 471);
             button39.Name = "button39";
             button39.Size = new Size(87, 46);
             button39.TabIndex = 36;
@@ -380,7 +381,7 @@
             btnDelete.IconChar = FontAwesome.Sharp.IconChar.DeleteLeft;
             btnDelete.IconColor = Color.Black;
             btnDelete.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnDelete.Location = new Point(393, 154);
+            btnDelete.Location = new Point(393, 155);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(87, 46);
             btnDelete.TabIndex = 40;
@@ -392,7 +393,7 @@
             btnIgual.IconChar = FontAwesome.Sharp.IconChar.Equals;
             btnIgual.IconColor = Color.Black;
             btnIgual.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnIgual.Location = new Point(393, 470);
+            btnIgual.Location = new Point(393, 471);
             btnIgual.Name = "btnIgual";
             btnIgual.Size = new Size(87, 46);
             btnIgual.TabIndex = 41;
@@ -402,7 +403,7 @@
             // btnMultiplications
             // 
             btnMultiplications.Font = new Font("Century Gothic", 10.2F);
-            btnMultiplications.Location = new Point(393, 314);
+            btnMultiplications.Location = new Point(393, 315);
             btnMultiplications.Name = "btnMultiplications";
             btnMultiplications.Size = new Size(87, 46);
             btnMultiplications.TabIndex = 46;
@@ -413,7 +414,7 @@
             // btnSubtraction
             // 
             btnSubtraction.Font = new Font("Century Gothic", 10.2F);
-            btnSubtraction.Location = new Point(393, 366);
+            btnSubtraction.Location = new Point(393, 367);
             btnSubtraction.Name = "btnSubtraction";
             btnSubtraction.Size = new Size(87, 46);
             btnSubtraction.TabIndex = 48;
@@ -424,7 +425,7 @@
             // btnAdd
             // 
             btnAdd.Font = new Font("Century Gothic", 10.2F);
-            btnAdd.Location = new Point(393, 418);
+            btnAdd.Location = new Point(393, 419);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(87, 46);
             btnAdd.TabIndex = 49;
@@ -444,7 +445,7 @@
             // button1
             // 
             button1.Font = new Font("Century Gothic", 10.2F);
-            button1.Location = new Point(393, 206);
+            button1.Location = new Point(393, 207);
             button1.Name = "button1";
             button1.Size = new Size(87, 46);
             button1.TabIndex = 51;
