@@ -365,6 +365,7 @@
             button39.TabIndex = 36;
             button39.Text = "+/-";
             button39.UseVisualStyleBackColor = true;
+            button39.Click += button39_Click;
             // 
             // button40
             // 

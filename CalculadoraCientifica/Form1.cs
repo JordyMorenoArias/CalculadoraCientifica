@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Eventing.Reader;
+using System.Text;
 using System.Windows.Resources;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -63,7 +65,7 @@ namespace CalculadoraCientifica
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (txtBoxContenedor.Text.Length > 0)
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
             {
                 // Eliminar espacios en blanco solo en los extremos
                 txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
@@ -89,7 +91,7 @@ namespace CalculadoraCientifica
 
         private void btnSubtraction_Click(object sender, EventArgs e)
         {
-            if (txtBoxContenedor.Text.Length > 0)
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
             {
                 // Eliminar espacios en blanco solo en los extremos
                 txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
@@ -101,6 +103,10 @@ namespace CalculadoraCientifica
                     // Reemplazar el último carácter con "-"
                     txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1) + "- ";
                 }
+                else if(lastChar == '(')
+                {
+                    txtBoxContenedor.Text += "0 - ";
+                }
                 else
                 {
                     txtBoxContenedor.Text += " - ";
@@ -108,15 +114,13 @@ namespace CalculadoraCientifica
             }
             else
             {
-                // Si está vacío, agregar "/"
                 txtBoxContenedor.Text += "0 - ";
-
             }
         }
 
         private void btnMultiplications_Click(object sender, EventArgs e)
         {
-            if (txtBoxContenedor.Text.Length > 0)
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
             {
                 // Eliminar espacios en blanco solo en los extremos
                 txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
@@ -137,7 +141,7 @@ namespace CalculadoraCientifica
 
         private void btnDivisions_Click(object sender, EventArgs e)
         {
-            if (txtBoxContenedor.Text.Length > 0)
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
             {
                 // Eliminar espacios en blanco solo en los extremos
                 txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
@@ -324,6 +328,50 @@ namespace CalculadoraCientifica
                 if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
                 {
                     txtBoxContenedor.Text += ",e+";
+                }
+            }
+        }
+
+        private void button39_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                string expression = txtBoxContenedor.Text;
+                int operadorIndex = -1;
+
+                // Recorre la expresión desde el final para encontrar el último número completo (incluyendo punto decimal y signo negativo)
+                for (int i = expression.Length - 1; i >= 0; i--)
+                {
+                    if (char.IsDigit(expression[i]) || expression[i] == ',' || (expression[i] == '-' && i == operadorIndex - 1))
+                    {
+                        operadorIndex = i;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (operadorIndex != -1)
+                {
+                    // Extrae el último número de la expresión
+                    string lastNumber = expression.Substring(operadorIndex);
+
+                    // Cambia el signo del último número
+                    if (lastNumber.StartsWith("-"))
+                    {
+                        lastNumber = lastNumber.Substring(1); // Elimina el signo negativo
+                    }
+                    else
+                    {
+                        lastNumber = "-" + lastNumber; // Agrega el signo negativo
+                    }
+
+                    // Reconstruye la expresión reemplazando el último número
+                    expression = expression.Substring(0, operadorIndex) + lastNumber;
+
+                    // Actualiza el TextBox con la nueva expresión
+                    txtBoxContenedor.Text = expression;
                 }
             }
         }

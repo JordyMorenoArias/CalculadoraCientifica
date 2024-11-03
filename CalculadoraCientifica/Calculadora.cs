@@ -78,7 +78,6 @@ namespace CalculadoraCientifica
                 }
 
             }
-
             return total;
         }
 
@@ -88,12 +87,28 @@ namespace CalculadoraCientifica
             List<string> expresiones = new List<string>();
             string numero = "";
             bool decimalEncontrado = false;
+            bool IsNegativo = false;
 
-            foreach (char c in entrada)
+            for (int i = 0; i < entrada.Length; i++)
             {
-                if (char.IsDigit(c) || (c == ',' && !decimalEncontrado))
+                char c = entrada[i];
+
+                if (c == '-' && (i == 0 || (!char.IsDigit(entrada[i - 1]) && entrada[i - 1] != ',')))
                 {
-                    numero += c; // Agregar dígitos consecutivos para formar el número
+                    // Detecta si el '-' es parte de un número negativo
+                    IsNegativo = true;
+                }
+
+                else if (char.IsDigit(c) || (c == ',' && !decimalEncontrado))
+                {
+                    // Si es negativo, agrega el signo al principio del número
+                    if (IsNegativo)
+                    {
+                        numero += "-";
+                        IsNegativo = false; // Resetear para el siguiente número
+                    }
+
+                    numero += c;
                     if (c == ',')
                         decimalEncontrado = true; // Marcar que se encontró un punto decimal
                 }
@@ -106,7 +121,6 @@ namespace CalculadoraCientifica
                         decimalEncontrado = false; // Reiniciar la bandera para el próximo número
                     }
                 }
-
             }
 
             // Agregar el último número si existe
@@ -116,17 +130,18 @@ namespace CalculadoraCientifica
             }
 
             return expresiones;
+
         }
 
         public static List<char> ObtenerOperadores(string entrada)
         {
             List<char> operadores = new List<char>();
 
-            foreach (char c in entrada)
+            for (int i = 0; i < entrada.Length; i++)
             {
-                if (c == '+' || c == '-' || c == '*' || c == '/')
+                if (entrada[i] == '+' || entrada[i] == '-' && char.IsDigit(entrada[i - 1]) || entrada[i] == '*' || entrada[i] == '/')
                 {
-                    operadores.Add(c); // Agregar el operador a la lista
+                    operadores.Add(entrada[i]); // Agregar el operador a la lista
                 }
             }
             return operadores;
