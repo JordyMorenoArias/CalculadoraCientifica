@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Eventing.Reader;
 using System.Text;
 using System.Windows.Resources;
@@ -103,9 +104,9 @@ namespace CalculadoraCientifica
                     // Reemplazar el último carácter con "-"
                     txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1) + "- ";
                 }
-                else if(lastChar == '(')
+                else if (lastChar == '(')
                 {
-                    txtBoxContenedor.Text += "0 - ";
+                    txtBoxContenedor.Text += "-";
                 }
                 else
                 {
@@ -194,8 +195,9 @@ namespace CalculadoraCientifica
 
                 operacion = operacion.Replace(" ", "");
 
+                operacion = Calculadora.calculateValorAbsoluto(operacion);
                 operacion = Calculadora.BuscarParentesis(operacion);
-                operacion = Calculadora.CalcularFactorial(operacion);
+                operacion = Calculadora.CalculateFactorial(operacion);
                 operacion = Calculadora.ElevaciónDeUnaPotencia(operacion);
                 operacion = Calculadora.CalculateExponente(operacion);
 
@@ -373,6 +375,36 @@ namespace CalculadoraCientifica
                     // Actualiza el TextBox con la nueva expresión
                     txtBoxContenedor.Text = expression;
                 }
+            }
+        }
+
+        private void btnValorAbsoluto_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                string expresion = txtBoxContenedor.Text;
+                int inicioValor = expresion.Length - 1;
+                string valor = "";
+
+                for (int i = expresion.Length - 1; i >= 0; i--)
+                {
+                    if (char.IsDigit(expresion[i]) || expresion[i] == ',' || expresion[i] == '-')
+                    {
+                        inicioValor--;
+                        valor = expresion[i] + valor;
+                    }
+                    else if (expresion[i] == '+' || expresion[i] == '*' || expresion[i] == '/' || expresion[i] == ' ')
+                    {
+                        inicioValor++;
+                        break;
+                    }
+
+                    if (i - 1 == -1)
+                    {
+                        inicioValor++;
+                    }
+                }
+                txtBoxContenedor.Text = expresion.Substring(0, inicioValor) + $"({valor})abs";
             }
         }
     }

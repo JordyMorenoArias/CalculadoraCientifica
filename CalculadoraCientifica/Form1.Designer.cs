@@ -55,7 +55,7 @@
             button35 = new Button();
             btnComa = new Button();
             btnZero = new Button();
-            button39 = new Button();
+            btnCambiarSigno = new Button();
             button40 = new Button();
             btnDelete = new FontAwesome.Sharp.IconButton();
             btnIgual = new FontAwesome.Sharp.IconButton();
@@ -127,6 +127,7 @@
             btnValorAbsoluto.TabIndex = 7;
             btnValorAbsoluto.Text = "|x|";
             btnValorAbsoluto.UseVisualStyleBackColor = true;
+            btnValorAbsoluto.Click += btnValorAbsoluto_Click;
             // 
             // btnInversoMultiplicativo
             // 
@@ -356,16 +357,16 @@
             btnZero.UseVisualStyleBackColor = true;
             btnZero.Click += btnZero_Click;
             // 
-            // button39
+            // btnCambiarSigno
             // 
-            button39.Font = new Font("Century Gothic", 10.2F);
-            button39.Location = new Point(114, 471);
-            button39.Name = "button39";
-            button39.Size = new Size(87, 46);
-            button39.TabIndex = 36;
-            button39.Text = "+/-";
-            button39.UseVisualStyleBackColor = true;
-            button39.Click += button39_Click;
+            btnCambiarSigno.Font = new Font("Century Gothic", 10.2F);
+            btnCambiarSigno.Location = new Point(114, 471);
+            btnCambiarSigno.Name = "btnCambiarSigno";
+            btnCambiarSigno.Size = new Size(87, 46);
+            btnCambiarSigno.TabIndex = 36;
+            btnCambiarSigno.Text = "+/-";
+            btnCambiarSigno.UseVisualStyleBackColor = true;
+            btnCambiarSigno.Click += button39_Click;
             // 
             // button40
             // 
@@ -479,7 +480,7 @@
             Controls.Add(btnDelete);
             Controls.Add(btnComa);
             Controls.Add(btnZero);
-            Controls.Add(button39);
+            Controls.Add(btnCambiarSigno);
             Controls.Add(button40);
             Controls.Add(btnThree);
             Controls.Add(btnTwo);
@@ -543,7 +544,7 @@
         private Button button35;
         private Button btnComa;
         private Button btnZero;
-        private Button button39;
+        private Button btnCambiarSigno;
         private Button button40;
         private FontAwesome.Sharp.IconButton btnDelete;
         private FontAwesome.Sharp.IconButton btnIgual;

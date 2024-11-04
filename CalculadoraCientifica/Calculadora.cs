@@ -72,7 +72,7 @@ namespace CalculadoraCientifica
                     else
                         MessageBox.Show($"Operador no válido: {operadores[i]}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                catch (Exception ex)
+                catch
                 {
                     return -total;
                 }
@@ -139,7 +139,11 @@ namespace CalculadoraCientifica
 
             for (int i = 0; i < entrada.Length; i++)
             {
-                if (entrada[i] == '+' || entrada[i] == '-' && char.IsDigit(entrada[i - 1]) || entrada[i] == '*' || entrada[i] == '/')
+                // Revisamos si el carácter actual es un operador
+                if (entrada[i] == '+' ||
+                    entrada[i] == '*' ||
+                    entrada[i] == '/' ||
+                    (entrada[i] == '-' && (i != 0 && char.IsDigit(entrada[i - 1]))))
                 {
                     operadores.Add(entrada[i]); // Agregar el operador a la lista
                 }
@@ -172,7 +176,7 @@ namespace CalculadoraCientifica
                     // Extrae la operación dentro del paréntesis
                     string operacionDentroParentesis = operacion.Substring(start + 1, end - start - 1);
 
-                    operacionDentroParentesis = CalcularFactorial(operacionDentroParentesis);
+                    operacionDentroParentesis = CalculateFactorial(operacionDentroParentesis);
                     operacionDentroParentesis = ElevaciónDeUnaPotencia(operacionDentroParentesis);
                     operacionDentroParentesis = CalculateExponente(operacionDentroParentesis);
 
@@ -188,7 +192,7 @@ namespace CalculadoraCientifica
 
         }
 
-        internal static string CalcularFactorial(string operacion)
+        internal static string CalculateFactorial(string operacion)
         {
 
             for (int i = 0; i < operacion.Length; i++)
@@ -342,5 +346,43 @@ namespace CalculadoraCientifica
             return operacion;
         }
 
+        internal static string calculateValorAbsoluto(string expresion)
+        {
+            int start = 0;
+            int end = 0;
+            string prueba;
+            string valor = "";
+
+            for(int i = 0; i < expresion.Length; i++)
+            {
+                if (expresion[i] == 's')
+                {
+                    end = i + 1;
+
+                    for (int j = i; j >= 0; j--)
+                    {
+                        if (expresion[j] == '(')
+                        {
+                           start = j;
+                            break;
+                        }
+                    }
+
+                    for (int j = start + 1; j < end; j++)
+                    {
+                        if (char.IsDigit(expresion[j]) || expresion[j] == ',' || expresion[j] == '-')
+                        {
+                            valor += expresion[j];
+                        }
+                    }
+
+                    decimal numberValor = Math.Abs(decimal.Parse(valor));
+
+                    expresion = expresion.Substring(0, start) + numberValor.ToString() + expresion.Substring(end);
+                }
+            }
+
+            return expresion;
+        }
     }
 }
