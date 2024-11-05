@@ -196,16 +196,17 @@ namespace CalculadoraCientifica
                 operacion = operacion.Replace(" ", "");
 
                 operacion = Calculadora.calculateValorAbsoluto(operacion);
-                operacion = Calculadora.BuscarParentesis(operacion);
                 operacion = Calculadora.CalculateFactorial(operacion);
                 operacion = Calculadora.ElevaciónDeUnaPotencia(operacion);
-                operacion = Calculadora.CalculateExponente(operacion);
+                operacion = Calculadora.ExpandirNotacionExponencial(operacion);
+                operacion = Calculadora.CalcularLogaritmo(operacion);
+                operacion = Calculadora.BuscarParentesis(operacion);
 
                 // Una vez resueltos los paréntesis, calcula el resultado final
                 decimal resultadoFinal = Calculadora.ResolverOperacion(operacion);
                 txtBoxContenedor.Text = resultadoFinal.ToString();
             }
-            catch (Exception ex)
+            catch
             {
                 txtFormula.Text = "Entrada no Valida";
             }
@@ -329,7 +330,7 @@ namespace CalculadoraCientifica
             {
                 if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
                 {
-                    txtBoxContenedor.Text += ",e+";
+                    txtBoxContenedor.Text += "e+";
                 }
             }
         }
@@ -405,6 +406,51 @@ namespace CalculadoraCientifica
                     }
                 }
                 txtBoxContenedor.Text = expresion.Substring(0, inicioValor) + $"({valor})abs";
+            }
+        }
+
+        private void btnRaiz_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRaízCuadrada_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button35_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            {
+                string expresion = txtBoxContenedor.Text;
+                int inicioValor = expresion.Length - 1;
+                string valor = "";
+
+                for (int i = expresion.Length - 1; i >= 0; i--)
+                {
+                    if (char.IsDigit(expresion[i]) || expresion[i] == ',' || expresion[i] == '-')
+                    {
+                        inicioValor--;
+                        valor = expresion[i] + valor;
+                    }
+                    else if (expresion[i] == '+' || expresion[i] == '*' || expresion[i] == '/' || expresion[i] == ' ')
+                    {
+                        inicioValor++;
+                        break;
+                    }
+
+                    if (i - 1 == -1)
+                    {
+                        inicioValor++;
+                    }
+                }
+                txtBoxContenedor.Text = expresion.Substring(0, inicioValor) + $"log({valor})";
             }
         }
     }

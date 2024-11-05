@@ -52,7 +52,7 @@
             btnThree = new Button();
             btnTwo = new Button();
             btnOne = new Button();
-            button35 = new Button();
+            btnLog = new Button();
             btnComa = new Button();
             btnZero = new Button();
             btnCambiarSigno = new Button();
@@ -86,6 +86,7 @@
             btnRaiz.TabIndex = 1;
             btnRaiz.Text = "√";
             btnRaiz.UseVisualStyleBackColor = true;
+            btnRaiz.Click += btnRaiz_Click;
             // 
             // btnE
             // 
@@ -202,8 +203,9 @@
             btnRaízCuadrada.Name = "btnRaízCuadrada";
             btnRaízCuadrada.Size = new Size(87, 46);
             btnRaízCuadrada.TabIndex = 10;
-            btnRaízCuadrada.Text = "√x";
+            btnRaízCuadrada.Text = "2^√x";
             btnRaízCuadrada.UseVisualStyleBackColor = true;
+            btnRaízCuadrada.Click += btnRaízCuadrada_Click;
             // 
             // btnNine
             // 
@@ -325,15 +327,16 @@
             btnOne.UseVisualStyleBackColor = true;
             btnOne.Click += btnOne_Click;
             // 
-            // button35
+            // btnLog
             // 
-            button35.Font = new Font("Century Gothic", 10.2F);
-            button35.Location = new Point(21, 418);
-            button35.Name = "button35";
-            button35.Size = new Size(87, 46);
-            button35.TabIndex = 30;
-            button35.Text = "log";
-            button35.UseVisualStyleBackColor = true;
+            btnLog.Font = new Font("Century Gothic", 10.2F);
+            btnLog.Location = new Point(21, 418);
+            btnLog.Name = "btnLog";
+            btnLog.Size = new Size(87, 46);
+            btnLog.TabIndex = 30;
+            btnLog.Text = "log";
+            btnLog.UseVisualStyleBackColor = true;
+            btnLog.Click += button35_Click;
             // 
             // btnComa
             // 
@@ -453,6 +456,7 @@
             button1.TabIndex = 51;
             button1.Text = "mod";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // txtFormula
             // 
@@ -485,7 +489,7 @@
             Controls.Add(btnThree);
             Controls.Add(btnTwo);
             Controls.Add(btnOne);
-            Controls.Add(button35);
+            Controls.Add(btnLog);
             Controls.Add(btnSix);
             Controls.Add(btnFive);
             Controls.Add(btnFour);
@@ -541,7 +545,7 @@
         private Button btnThree;
         private Button btnTwo;
         private Button btnOne;
-        private Button button35;
+        private Button btnLog;
         private Button btnComa;
         private Button btnZero;
         private Button btnCambiarSigno;

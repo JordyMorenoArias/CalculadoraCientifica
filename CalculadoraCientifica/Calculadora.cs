@@ -8,6 +8,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using MathNet.Numerics;
 using MathNet.Numerics.Distributions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace CalculadoraCientifica
 {
@@ -176,10 +177,6 @@ namespace CalculadoraCientifica
                     // Extrae la operación dentro del paréntesis
                     string operacionDentroParentesis = operacion.Substring(start + 1, end - start - 1);
 
-                    operacionDentroParentesis = CalculateFactorial(operacionDentroParentesis);
-                    operacionDentroParentesis = ElevaciónDeUnaPotencia(operacionDentroParentesis);
-                    operacionDentroParentesis = CalculateExponente(operacionDentroParentesis);
-
                     // Calcula el resultado de la operación dentro del paréntesis
                     decimal resultadoParentesis = ResolverOperacion(operacionDentroParentesis);
 
@@ -194,194 +191,103 @@ namespace CalculadoraCientifica
 
         internal static string CalculateFactorial(string operacion)
         {
+            MatchCollection matches = Regex.Matches(operacion, @"(\d+([,]\d+)?)!");
 
-            for (int i = 0; i < operacion.Length; i++)
+            foreach (Match match in matches)
             {
-                if (operacion[i] == '!')
-                {
-                    string valorCalcular = "";
-                    int j = i - 1;
+                BigInteger resultado = FactorialRecursivo(decimal.Parse(match.Groups[1].Value));
 
-                    // Recorre hacia atrás para encontrar el número anterior al '!'
-                    while (j >= 0 && (char.IsDigit(operacion[j]) || operacion[j] == ','))
-                    {
-                        valorCalcular = operacion[j] + valorCalcular;
-                        j--;
-                    }
-
-                    // Calcula el factorial del número extraído
-                    decimal resultado = FactorialRecursivo(decimal.Parse(valorCalcular));
-                    operacion = operacion.Substring(0, j + 1) + resultado.ToString() + operacion.Substring(i + 1);
-
-                    // Reinicia el índice para evitar saltar partes de la cadena modificada
-                    i = -1;
-                }
+                operacion = operacion.Replace($"{match.Groups[1].Value}!", resultado.ToString());
             }
 
             return operacion;
         }
 
-        internal static decimal FactorialRecursivo(decimal number)
+        internal static BigInteger FactorialRecursivo(decimal number)
         {
             if (number < 0)
             {
                 MessageBox.Show("Los números negativos no tienen factorial.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return BigInteger.Zero;
             }
 
-            if (number % 1 == 0) // Verifica si el número es entero
+            if (number % 1 != 0) // Verifica si el número es entero
             {
-                if (number == 0) return 1;
-                else return number * FactorialRecursivo(number - 1);
+                return (BigInteger)SpecialFunctions.Gamma((double)number + 1);
             }
-            else // Si el número no es entero
+
+            BigInteger resultado = BigInteger.One;
+
+            for (int i = 2; i <= (int)number; i++)
             {
-                return (decimal)SpecialFunctions.Gamma((double)number + 1);
+                resultado *= i;
             }
+
+            return resultado;
         }
 
         internal static string ElevaciónDeUnaPotencia(string operacion)
         {
-            string baseNumber = "";
-            string exponiente = "";
 
-            for (int i = 0; i < operacion.Length; i++)
+            MatchCollection matches = Regex.Matches(operacion, @"(-?\d+(,\d+)?)\^(\d)");   
+
+            foreach (Match match in matches) 
             {
-                if (operacion[i] == '^')
-                {
-                    for (int j = i - 1; j >= 0; j--)
-                    {
-                        if (char.IsDigit(operacion[j]) || operacion[j] == ',')
-                        {
-                            baseNumber = operacion[j].ToString() + baseNumber;
-                        }
-                        if(operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/')
-                        {
-                            break;
-                        }
-                    }
+                double a = double.Parse(match.Groups[1].Value);
+                double n = double.Parse(match.Groups[3].Value);
 
-                    for (int j = i + 1; j < operacion.Length; j++)
-                    {
-                        if (char.IsDigit(operacion[j]) || operacion[j] == ',')
-                        {
-                            exponiente += operacion[j].ToString();
-                        }
-                        if (operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/')
-                        {
-                            break;
-                        }
-                    }
+                double resultado = Math.Pow(a, n);
 
-                    double a = double.Parse(baseNumber);
-                    double n = double.Parse(exponiente);
-
-                    double resultado = Math.Pow(a, n);
-
-                    return operacion = operacion.Replace($"{baseNumber}^{exponiente}", resultado.ToString());
-                   
-                }
+                operacion = operacion.Replace(match.Value, resultado.ToString());
             }
 
             return operacion;
-
         }
 
-        internal static string CalculateExponente(string operacion)
+        internal static string ExpandirNotacionExponencial(string operacion)
         {
+            // Expresión regular para detectar patrones de notación científica del tipo 1,23e+4
+            MatchCollection matches = Regex.Matches(operacion, @"(\d+(,\d+)?)[eE][+](\d+)");
 
-            for (int i = 0; i < operacion.Length; i++)
+            foreach (Match match in matches)
             {
-                string numberBase = "";
-                string exponente = "";
-                bool baseIsDecimal = false;
+                string numberBase = match.Groups[1].Value;
+                int exponent = int.Parse(match.Groups[3].Value);
 
-                if (operacion[i] == 'e')
-                {
-                    for(int j = i - 2; j >= 0; j--)
-                    {
-                        if(char.IsDigit(operacion[j])) 
-                            numberBase = operacion[j].ToString() + numberBase;
+                // Convertimos la base a un número decimal y aplicamos el exponente
+                double baseValue = double.Parse(numberBase);
+                double resultValue = baseValue * Math.Pow(10, exponent);
 
-                        else if (operacion[j] == ',')
-                        {
-                            numberBase = operacion[j].ToString() + numberBase;
-                            baseIsDecimal = true;
-                        }
-
-                        if (operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/') 
-                            break;
-                    }
-
-                    for (int j = i + 2; j < operacion.Length; j++)
-                    {
-                        if (char.IsDigit(operacion[j]))
-                            exponente += operacion[j].ToString();
-
-                        if (operacion[j] == '+' || operacion[j] == '-' || operacion[j] == '*' || operacion[j] == '/')
-                            break;
-                    }
-
-                    string resultado = numberBase;
-                    resultado = resultado.Replace(",", "");
-
-                    if (baseIsDecimal)
-                    {
-                        for (int j = 0; j < int.Parse(exponente) - 1; j++)
-                        {
-                            resultado += '0';
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < int.Parse(exponente); j++)
-                        {
-                            resultado += '0';
-                        }
-                    }
-
-                    operacion = operacion.Replace(numberBase + ",e+" + exponente, resultado);
-                }
+                // Reemplazar la notación científica en la cadena con el resultado
+                operacion = operacion.Replace(match.Value, resultValue.ToString("G"));
             }
-
             return operacion;
         }
 
         internal static string calculateValorAbsoluto(string expresion)
         {
-            int start = 0;
-            int end = 0;
-            string prueba;
-            string valor = "";
+            MatchCollection matches = Regex.Matches(expresion, @"\(-?(\d+(,\d+)?)\)abs");
 
-            for(int i = 0; i < expresion.Length; i++)
+            foreach(Match match in matches) 
             {
-                if (expresion[i] == 's')
-                {
-                    end = i + 1;
+                decimal valor = Math.Abs(decimal.Parse(match.Groups[1].Value));
 
-                    for (int j = i; j >= 0; j--)
-                    {
-                        if (expresion[j] == '(')
-                        {
-                           start = j;
-                            break;
-                        }
-                    }
+                expresion = expresion.Replace(match.Value, valor.ToString());
+            } 
+            return expresion;
+        }
 
-                    for (int j = start + 1; j < end; j++)
-                    {
-                        if (char.IsDigit(expresion[j]) || expresion[j] == ',' || expresion[j] == '-')
-                        {
-                            valor += expresion[j];
-                        }
-                    }
+        internal static string CalcularLogaritmo(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"log\((\d+(,\d+)?)\)");
 
-                    decimal numberValor = Math.Abs(decimal.Parse(valor));
+            foreach ( Match match in matches)
+            {
+                double number = double.Parse(match.Groups[1].Value);
+                double resultado = Math.Log10(number);
 
-                    expresion = expresion.Substring(0, start) + numberValor.ToString() + expresion.Substring(end);
-                }
+                expresion = expresion.Replace(match.Value, resultado.ToString());
             }
-
             return expresion;
         }
     }
