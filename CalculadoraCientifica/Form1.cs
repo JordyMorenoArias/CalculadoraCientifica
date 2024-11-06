@@ -1,7 +1,8 @@
-using System.ComponentModel.DataAnnotations;
+Ôªøusing System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Eventing.Reader;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Resources;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -16,149 +17,168 @@ namespace CalculadoraCientifica
 
         private void btnZero_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "0";
+            txtDisplay.Text += "0";
         }
 
         private void btnOne_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "1";
+            txtDisplay.Text += "1";
         }
 
         private void btnTwo_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "2";
+            txtDisplay.Text += "2";
         }
 
         private void btnThree_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "3";
+            txtDisplay.Text += "3";
         }
 
         private void btnFour_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "4";
+            txtDisplay.Text += "4";
         }
 
         private void btnFive_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "5";
+            txtDisplay.Text += "5";
         }
 
         private void btnSix_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "6";
+            txtDisplay.Text += "6";
         }
 
         private void btnSeven_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "7";
+            txtDisplay.Text += "7";
         }
 
         private void btnEight_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "8";
+            txtDisplay.Text += "8";
         }
 
         private void btnNine_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "9";
+            txtDisplay.Text += "9";
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                // Eliminar espacios en blanco solo en los extremos
-                txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
+                var match = Regex.Match(txtDisplay.Text, @"Mod\s$");
 
-                char lastChar = txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1];
-                // Verificar si el ˙ltimo car·cter es +, - o *
+                // Eliminar espacios en blanco solo en los extremos
+                txtDisplay.Text = txtDisplay.Text.TrimEnd();
+
+                char lastChar = txtDisplay.Text[txtDisplay.Text.Length - 1];
+                // Verificar si el √∫ltimo car√°cter es +, - o *
                 if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
                 {
-                    // Reemplazar el ˙ltimo car·cter con "*"
-                    txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1) + "+ ";
+                    // Reemplazar el √∫ltimo car√°cter con "*"
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1) + "+ ";
+                }
+                else if (match.Success)
+                {
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, match.Index) + "+ ";
                 }
                 else
                 {
-                    txtBoxContenedor.Text += " + ";
+                    txtDisplay.Text += " + ";
                 }
-            }
-            else
-            {
-                // Si est· vacÌo, agregar "/"
-                txtBoxContenedor.Text += " + ";
             }
         }
 
         private void btnSubtraction_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                // Eliminar espacios en blanco solo en los extremos
-                txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
+                var match = Regex.Match(txtDisplay.Text, @"Mod\s$");
 
-                char lastChar = txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1];
-                // Verificar si el ˙ltimo car·cter es +, - o *
+                // Eliminar espacios en blanco solo en los extremos
+                txtDisplay.Text = txtDisplay.Text.TrimEnd();
+
+                char lastChar = txtDisplay.Text[txtDisplay.Text.Length - 1];
+                // Verificar si el √∫ltimo car√°cter es +, - o *
                 if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
                 {
-                    // Reemplazar el ˙ltimo car·cter con "-"
-                    txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1) + "- ";
+                    // Reemplazar el √∫ltimo car√°cter con "-"
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1) + "- ";
+                }
+                else if (match.Success)
+                {
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, match.Index) + "- ";
                 }
                 else if (lastChar == '(')
                 {
-                    txtBoxContenedor.Text += "-";
+                    txtDisplay.Text += "-";
                 }
                 else
                 {
-                    txtBoxContenedor.Text += " - ";
+                    txtDisplay.Text += " - ";
                 }
             }
             else
             {
-                txtBoxContenedor.Text += "0 - ";
+                txtDisplay.Text += "0 - ";
             }
         }
 
         private void btnMultiplications_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                // Eliminar espacios en blanco solo en los extremos
-                txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
+                var match = Regex.Match(txtDisplay.Text, @"Mod\s$");
 
-                char lastChar = txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1];
-                // Verificar si el ˙ltimo car·cter es +, - o *
+                // Eliminar espacios en blanco solo en los extremos
+                txtDisplay.Text = txtDisplay.Text.TrimEnd();
+
+                char lastChar = txtDisplay.Text[txtDisplay.Text.Length - 1];
+                // Verificar si el √∫ltimo car√°cter es +, - o *
                 if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
                 {
-                    // Reemplazar el ˙ltimo car·cter con "*"
-                    txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1) + "* ";
+                    // Reemplazar el √∫ltimo car√°cter con "*"
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1) + "* ";
+                }
+                else if (match.Success)
+                {
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, match.Index) + "* ";
                 }
                 else
                 {
-                    txtBoxContenedor.Text += " * ";
+                    txtDisplay.Text += " * ";
                 }
             }
         }
 
         private void btnDivisions_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
+                var match = Regex.Match(txtDisplay.Text, @"Mod\s$");
+
                 // Eliminar espacios en blanco solo en los extremos
-                txtBoxContenedor.Text = txtBoxContenedor.Text.Trim();
+                txtDisplay.Text = txtDisplay.Text.TrimEnd();
 
-                char lastChar = txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1];
+                char lastChar = txtDisplay.Text[txtDisplay.Text.Length - 1];
 
-                // Verificar si el ˙ltimo car·cter es +, - o *
+                // Verificar si el √∫ltimo car√°cter es +, - o *
                 if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
                 {
-                    // Reemplazar el ˙ltimo car·cter con "/"
-                    txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1) + "/ ";
+                    // Reemplazar el √∫ltimo car√°cter con "/"
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1) + "/ ";
+                }
+                else if (match.Success)
+                {
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, match.Index) + "/ ";
                 }
                 else
                 {
-                    // Si el ˙ltimo car·cter no es +, - o *, simplemente agregar "/"
-                    txtBoxContenedor.Text += " / ";
+                    // Si el √∫ltimo car√°cter no es +, - o *, simplemente agregar "/"
+                    txtDisplay.Text += " / ";
                 }
             }
         }
@@ -167,16 +187,16 @@ namespace CalculadoraCientifica
         {
             try
             {
-                string operacion = txtBoxContenedor.Text;
+                string operacion = txtDisplay.Text;
 
-                // Aseg˙rate de que la cadena no estÈ vacÌa antes de realizar el bucle
+                // Aseg√∫rate de que la cadena no est√© vac√≠a antes de realizar el bucle
                 if (!string.IsNullOrEmpty(operacion))
                 {
                     for (int i = operacion.Length - 1; i >= 0; i--)
                     {
                         if (char.IsDigit(operacion[i]))
                         {
-                            // Si encontramos un dÌgito, no hacemos nada y salimos del bucle
+                            // Si encontramos un d√≠gito, no hacemos nada y salimos del bucle
                             break;
                         }
                         else if (operacion[i] == '+' || operacion[i] == '-' || operacion[i] == '*' || operacion[i] == '/')
@@ -188,23 +208,37 @@ namespace CalculadoraCientifica
                     }
                 }
 
-                txtBoxContenedor.Text = operacion;  // Actualizamos txtBoxContenedor antes de llamar al mÈtodo
-                btnParÈntesisCierre_Click(sender, e);
+                txtDisplay.Text = operacion;  // Actualizamos txtBoxContenedor antes de llamar al m√©todo
+                btnPar√©ntesisCierre_Click(sender, e);
 
-                txtFormula.Text = txtBoxContenedor.Text + " = ";
+                txtFormula.Text = txtDisplay.Text + " = ";
 
                 operacion = operacion.Replace(" ", "");
 
-                operacion = Calculadora.calculateValorAbsoluto(operacion);
-                operacion = Calculadora.CalculateFactorial(operacion);
-                operacion = Calculadora.ElevaciÛnDeUnaPotencia(operacion);
-                operacion = Calculadora.ExpandirNotacionExponencial(operacion);
-                operacion = Calculadora.CalcularLogaritmo(operacion);
+                // (4 + 3) = 7
                 operacion = Calculadora.BuscarParentesis(operacion);
+                // Ejemplo: Si operacion es "4 + 3", el resultado ser√° "7".
 
-                // Una vez resueltos los parÈntesis, calcula el resultado final
+                // 3.14e2 = 314
+                operacion = Calculadora.ExpandirNotacionExponencial(operacion);
+                // Ejemplo: Si operacion es "3.14e2", el resultado ser√° "314" (3.14 * 10^2).
+
+                // 2^3 = 8
+                operacion = Calculadora.Elevaci√≥nDeUnaPotencia(operacion);
+                // Ejemplo: Si operacion es "2^3", el resultado ser√° "8" (2 elevado a 3).
+
+                // 5 % 2 = 1
+                operacion = Calculadora.CalcularRestoMod(operacion);
+                // Ejemplo: Si operacion es "5 % 2", el resultado ser√° "1".
+
+                // 5! = 120
+                operacion = Calculadora.CalcularFactorial(operacion);
+                // Ejemplo: Si operacion es "5", el resultado ser√° "120" (porque 5! = 5 * 4 * 3 * 2 * 1).
+
+
+                // Una vez resueltos los par√©ntesis, calcula el resultado final
                 decimal resultadoFinal = Calculadora.ResolverOperacion(operacion);
-                txtBoxContenedor.Text = resultadoFinal.ToString();
+                txtDisplay.Text = resultadoFinal.ToString();
             }
             catch
             {
@@ -218,131 +252,157 @@ namespace CalculadoraCientifica
             {
                 txtFormula.Text = "";
             }
-            else if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            else if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                txtBoxContenedor.Text = txtBoxContenedor.Text.Substring(0, txtBoxContenedor.Text.Length - 1);
+                txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1);
             }
         }
 
-        private void btnParÈntesisCierre_Click(object sender, EventArgs e)
+        private void btnPar√©ntesisCierre_Click(object sender, EventArgs e)
         {
-            if (txtBoxContenedor.Text.Length > 0 &&
-                txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 2] != '-' &&
-                txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 2] != '+' &&
-                txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 2] != '*' &&
-                txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 2] != '/')
+            if (txtDisplay.Text.Length > 0 &&
+                txtDisplay.Text[txtDisplay.Text.Length - 2] != '-' &&
+                txtDisplay.Text[txtDisplay.Text.Length - 2] != '+' &&
+                txtDisplay.Text[txtDisplay.Text.Length - 2] != '*' &&
+                txtDisplay.Text[txtDisplay.Text.Length - 2] != '/' &&
+                txtDisplay.Text[txtDisplay.Text.Length - 2] != 'd')
             {
                 int openParenthesesCount = 0;
                 int closeParenthesesNeeded = 0;
 
-                for (int i = 0; i < txtBoxContenedor.Text.Length; i++)
+                for (int i = 0; i < txtDisplay.Text.Length; i++)
                 {
-                    if (txtBoxContenedor.Text[i] == '(')
+                    if (txtDisplay.Text[i] == '(')
                     {
                         openParenthesesCount++;
                     }
-                    else if (txtBoxContenedor.Text[i] == ')')
+                    else if (txtDisplay.Text[i] == ')')
                     {
                         openParenthesesCount--;
                     }
                 }
 
-                // Si openParenthesesCount es positivo, significa que hay parÈntesis de apertura sin cerrar
+                // Si openParenthesesCount es positivo, significa que hay par√©ntesis de apertura sin cerrar
                 closeParenthesesNeeded = openParenthesesCount;
 
                 for (int i = 0; i < closeParenthesesNeeded; i++)
                 {
-                    txtBoxContenedor.Text += ")";
+                    txtDisplay.Text += ")";
                 }
             }
 
         }
 
-        private void btnParÈntesisApertura_Click(object sender, EventArgs e)
+        private void btnPar√©ntesisApertura_Click(object sender, EventArgs e)
         {
-            // Verificar si el texto est· vacÌo
-            if (string.IsNullOrEmpty(txtBoxContenedor.Text))
+            // Verificar si el texto est√° vac√≠o
+            if (string.IsNullOrEmpty(txtDisplay.Text))
             {
-                txtBoxContenedor.Text += "("; // Agregar solo el parÈntesis de apertura si est· vacÌo
+                txtDisplay.Text += "("; // Agregar solo el par√©ntesis de apertura si est√° vac√≠o
             }
-            else if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+            else if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]))
             {
-                txtBoxContenedor.Text += " * ("; // Agregar "* (" si el ˙ltimo car·cter es un dÌgito
+                txtDisplay.Text += " * ("; // Agregar "* (" si el √∫ltimo car√°cter es un d√≠gito
             }
             else
             {
-                txtBoxContenedor.Text += "("; // Agregar "(" en cualquier otro caso
+                txtDisplay.Text += "("; // Agregar "(" en cualquier otro caso
             }
         }
 
         private void btnPunto_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]))
                 {
-                    txtBoxContenedor.Text += ",";
+                    txtDisplay.Text += ",";
                 }
             }
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]) || txtDisplay.Text[txtDisplay.Text.Length - 1] == ')')
                 {
-                    txtBoxContenedor.Text += "!";
+                    txtDisplay.Text += "!";
                 }
             }
         }
 
         private void btnInversoMultiplicativo_Click(object sender, EventArgs e)
         {
-            txtBoxContenedor.Text += "(1/";
+
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                // Obtener el texto del display
+                string expresion = txtDisplay.Text;
+
+                // Buscar el √∫ltimo n√∫mero en la cadena usando una expresi√≥n regular
+                Match match = Regex.Match(expresion, @"(-?\d+(,\d+)?)$");
+
+                if (match.Success)
+                {
+                    string valor = match.Value;
+                    int inicioValor = match.Index;
+
+                    // Reemplazar el √∫ltimo n√∫mero con "(1/valor"
+                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"(1/{valor}";
+                }
+                else
+                {
+                    txtDisplay.Text += "(1/";
+                }
+            }
+            else
+            {
+                txtDisplay.Text += "(1/"; // Agregar "(" en cualquier otro caso
+            }
         }
 
         private void btnXsobreY_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text) || txtDisplay.Text[txtDisplay.Text.Length - 1] == ')')
             {
-                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]))
                 {
-                    txtBoxContenedor.Text += "^";
+                    txtDisplay.Text += "^";
                 }
             }
         }
 
         private void btnXsobre2_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]) || txtDisplay.Text[txtDisplay.Text.Length - 1] == ')')
                 {
-                    txtBoxContenedor.Text += "^2";
+                    txtDisplay.Text += "^2";
                 }
             }
         }
 
         private void btnExp_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                if (char.IsDigit(txtBoxContenedor.Text[txtBoxContenedor.Text.Length - 1]))
+                if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]))
                 {
-                    txtBoxContenedor.Text += "e+";
+                    txtDisplay.Text += "e+";
                 }
             }
         }
 
         private void button39_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                string expression = txtBoxContenedor.Text;
+                string expression = txtDisplay.Text;
                 int operadorIndex = -1;
 
-                // Recorre la expresiÛn desde el final para encontrar el ˙ltimo n˙mero completo (incluyendo punto decimal y signo negativo)
+                // Recorre la expresi√≥n desde el final para encontrar el √∫ltimo n√∫mero completo (incluyendo punto decimal y signo negativo)
                 for (int i = expression.Length - 1; i >= 0; i--)
                 {
                     if (char.IsDigit(expression[i]) || expression[i] == ',' || (expression[i] == '-' && i == operadorIndex - 1))
@@ -357,10 +417,10 @@ namespace CalculadoraCientifica
 
                 if (operadorIndex != -1)
                 {
-                    // Extrae el ˙ltimo n˙mero de la expresiÛn
+                    // Extrae el √∫ltimo n√∫mero de la expresi√≥n
                     string lastNumber = expression.Substring(operadorIndex);
 
-                    // Cambia el signo del ˙ltimo n˙mero
+                    // Cambia el signo del √∫ltimo n√∫mero
                     if (lastNumber.StartsWith("-"))
                     {
                         lastNumber = lastNumber.Substring(1); // Elimina el signo negativo
@@ -370,88 +430,183 @@ namespace CalculadoraCientifica
                         lastNumber = "-" + lastNumber; // Agrega el signo negativo
                     }
 
-                    // Reconstruye la expresiÛn reemplazando el ˙ltimo n˙mero
+                    // Reconstruye la expresi√≥n reemplazando el √∫ltimo n√∫mero
                     expression = expression.Substring(0, operadorIndex) + lastNumber;
 
-                    // Actualiza el TextBox con la nueva expresiÛn
-                    txtBoxContenedor.Text = expression;
+                    // Actualiza el TextBox con la nueva expresi√≥n
+                    txtDisplay.Text = expression;
                 }
             }
         }
 
         private void btnValorAbsoluto_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                string expresion = txtBoxContenedor.Text;
-                int inicioValor = expresion.Length - 1;
-                string valor = "";
+                // Obtener el texto del display
+                string expresion = txtDisplay.Text;
 
-                for (int i = expresion.Length - 1; i >= 0; i--)
+                // Buscar el √∫ltimo n√∫mero en la cadena usando la expresi√≥n regular
+                Match match = Regex.Match(expresion, @"-?\d+(,\d+)?$");
+
+                if (match.Success)
                 {
-                    if (char.IsDigit(expresion[i]) || expresion[i] == ',' || expresion[i] == '-')
-                    {
-                        inicioValor--;
-                        valor = expresion[i] + valor;
-                    }
-                    else if (expresion[i] == '+' || expresion[i] == '*' || expresion[i] == '/' || expresion[i] == ' ')
-                    {
-                        inicioValor++;
-                        break;
-                    }
+                    string valor = match.Value; // Valor del n√∫mero encontrado
+                    int inicioValor = match.Index; // √çndice donde comienza el n√∫mero
 
-                    if (i - 1 == -1)
-                    {
-                        inicioValor++;
-                    }
+                    // Reemplazar el √∫ltimo n√∫mero con "(valor)abs"
+                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"({valor})abs";
                 }
-                txtBoxContenedor.Text = expresion.Substring(0, inicioValor) + $"({valor})abs";
             }
         }
 
         private void btnRaiz_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                txtDisplay.Text += Math.PI.ToString();
+            }
+            else
+            {
+                string expresion = txtDisplay.Text;
 
+                if (!char.IsDigit(expresion[expresion.Length - 1]))
+                {
+                    txtDisplay.Text += Math.PI.ToString();
+                }
+            }
         }
+        private void btnBaseLogaritmos_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                txtDisplay.Text += Math.E.ToString();
+            }
+            else
+            {
+                string expresion = txtDisplay.Text;
+
+                if (!char.IsDigit(expresion[expresion.Length - 1]))
+                {
+                    txtDisplay.Text += Math.E.ToString();
+                }
+            }
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
+            {
 
+                // Eliminar espacios en blanco solo en los extremos
+                txtDisplay.Text = txtDisplay.Text.TrimEnd();
+
+                char lastChar = txtDisplay.Text[txtDisplay.Text.Length - 1];
+                // Verificar si el √∫ltimo car√°cter es +, - o *
+                if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
+                {
+                    // Reemplazar el √∫ltimo car√°cter con "*"
+                    txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1) + "Mod ";
+                }
+                else
+                {
+                    txtDisplay.Text += " Mod ";
+                }
+            }
         }
 
-        private void btnRaÌzCuadrada_Click(object sender, EventArgs e)
+        private void btnRa√≠zCuadrada_Click(object sender, EventArgs e)
         {
 
         }
 
         private void button35_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtBoxContenedor.Text))
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                string expresion = txtBoxContenedor.Text;
-                int inicioValor = expresion.Length - 1;
-                string valor = "";
+                // Obtener el texto del display
+                string expresion = txtDisplay.Text;
 
-                for (int i = expresion.Length - 1; i >= 0; i--)
+                // Buscar el √∫ltimo n√∫mero en la cadena usando la expresi√≥n regular
+                Match match = Regex.Match(expresion, @"-?\d+(,\d+)?$");
+
+                if (match.Success)
                 {
-                    if (char.IsDigit(expresion[i]) || expresion[i] == ',' || expresion[i] == '-')
-                    {
-                        inicioValor--;
-                        valor = expresion[i] + valor;
-                    }
-                    else if (expresion[i] == '+' || expresion[i] == '*' || expresion[i] == '/' || expresion[i] == ' ')
-                    {
-                        inicioValor++;
-                        break;
-                    }
+                    string valor = match.Value; // Valor del n√∫mero encontrado
+                    int inicioValor = match.Index; // √çndice donde comienza el n√∫mero
 
-                    if (i - 1 == -1)
-                    {
-                        inicioValor++;
-                    }
+                    // Reemplazar el √∫ltimo n√∫mero con "(valor)abs"
+                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"log({valor})";
                 }
-                txtBoxContenedor.Text = expresion.Substring(0, inicioValor) + $"log({valor})";
             }
+        }
+
+        private void btnCE_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                // Obtener el texto del display
+                string expresion = txtDisplay.Text;
+
+                var match1 = Regex.Match(txtDisplay.Text, @"\(?(-?\d+(,\d+)?)\)?$|\s[+\-/*]\s$");
+
+                if (match1.Success)
+                {
+                    int inicioValor = match1.Index; // √çndice donde comienza el n√∫mero
+
+                    // Reemplazar el √∫ltimo n√∫mero con "(valor)abs"
+                    txtDisplay.Text = expresion.Substring(0, inicioValor);
+                }
+            }
+
+        }
+
+        private void btnIn_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                // Obtener el texto del display
+                string expresion = txtDisplay.Text;
+
+                // Buscar el √∫ltimo n√∫mero en la cadena usando la expresi√≥n regular
+                Match match = Regex.Match(expresion, @"-?\d+(,\d+)?$");
+
+                if (match.Success)
+                {
+                    string valor = match.Value; // Valor del n√∫mero encontrado
+                    int inicioValor = match.Index; // √çndice donde comienza el n√∫mero
+
+                    // Reemplazar el √∫ltimo n√∫mero con "(valor)abs"
+                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"In({valor})";
+                }
+            }
+        }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                // Obtener el texto del display
+                string expresion = txtDisplay.Text;
+
+                // Buscar el √∫ltimo n√∫mero en la cadena usando la expresi√≥n regular
+                Match match = Regex.Match(expresion, @"-?\d+(,\d+)?$");
+
+                if (match.Success)
+                {
+                    string valor = match.Value; // Valor del n√∫mero encontrado
+                    int inicioValor = match.Index; // √çndice donde comienza el n√∫mero
+
+                    // Reemplazar el √∫ltimo n√∫mero con "(valor)abs"
+                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"10^({valor})";
+                }
+            }
+        }
+
+        private void btn2nd_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -82,56 +82,17 @@ namespace CalculadoraCientifica
             return total;
         }
 
-        public static List<string> ObtenerExpresiones(string entrada)
+        public static List<string> ObtenerExpresiones(string expresion)
         {
-
+            MatchCollection matches = Regex.Matches(expresion, @"(-?\d+(,\d+)?)");
             List<string> expresiones = new List<string>();
-            string numero = "";
-            bool decimalEncontrado = false;
-            bool IsNegativo = false;
 
-            for (int i = 0; i < entrada.Length; i++)
+            foreach (Match match in matches) 
             {
-                char c = entrada[i];
-
-                if (c == '-' && (i == 0 || (!char.IsDigit(entrada[i - 1]) && entrada[i - 1] != ',')))
-                {
-                    // Detecta si el '-' es parte de un número negativo
-                    IsNegativo = true;
-                }
-
-                else if (char.IsDigit(c) || (c == ',' && !decimalEncontrado))
-                {
-                    // Si es negativo, agrega el signo al principio del número
-                    if (IsNegativo)
-                    {
-                        numero += "-";
-                        IsNegativo = false; // Resetear para el siguiente número
-                    }
-
-                    numero += c;
-                    if (c == ',')
-                        decimalEncontrado = true; // Marcar que se encontró un punto decimal
-                }
-                else
-                {
-                    if (numero != "")
-                    {
-                        expresiones.Add(numero); // Agregar el número completo a la lista
-                        numero = ""; // Reiniciar para el siguiente número
-                        decimalEncontrado = false; // Reiniciar la bandera para el próximo número
-                    }
-                }
-            }
-
-            // Agregar el último número si existe
-            if (numero != "")
-            {
-                expresiones.Add(numero);
+                expresiones.Add(match.Value);
             }
 
             return expresiones;
-
         }
 
         public static List<char> ObtenerOperadores(string entrada)
@@ -155,6 +116,18 @@ namespace CalculadoraCientifica
         // Agrega paréntesis de cierre si falta alguno al final
         internal static string BuscarParentesis(string operacion)
         {
+            // log(10) ≈ 1,3010
+            operacion = Calculadora.CalcularLogaritmo(operacion);
+            // Ejemplo: Si operacion es "10", el resultado será el logaritmo de 10, que es aproximadamente "1,3010".
+
+            // In(10) ≈ 2.3026
+            operacion = Calculadora.CalcularLogaritmoNatural(operacion);
+            // Ejemplo: Si operacion es "10", el resultado será el logaritmo natural de 10, que es aproximadamente "2.3026".
+
+            // abs(-20) = 20
+            operacion = Calculadora.calcularValorAbsoluto(operacion);
+            // Ejemplo: Si operacion es "-20", el resultado será "20".
+
             int balance = 0;
             for (int i = 0; i < operacion.Length; i++)
             {
@@ -177,6 +150,11 @@ namespace CalculadoraCientifica
                     // Extrae la operación dentro del paréntesis
                     string operacionDentroParentesis = operacion.Substring(start + 1, end - start - 1);
 
+                    operacionDentroParentesis = CalcularFactorial(operacionDentroParentesis);
+                    operacionDentroParentesis = ElevaciónDeUnaPotencia(operacionDentroParentesis);
+                    operacionDentroParentesis = ExpandirNotacionExponencial(operacionDentroParentesis);
+                    operacionDentroParentesis = CalcularRestoMod(operacionDentroParentesis);
+
                     // Calcula el resultado de la operación dentro del paréntesis
                     decimal resultadoParentesis = ResolverOperacion(operacionDentroParentesis);
 
@@ -189,31 +167,31 @@ namespace CalculadoraCientifica
 
         }
 
-        internal static string CalculateFactorial(string operacion)
+        internal static string CalcularFactorial(string operacion)
         {
-            MatchCollection matches = Regex.Matches(operacion, @"(\d+([,]\d+)?)!");
+            MatchCollection matches = Regex.Matches(operacion, @"(-?\d+([,]\d+)?)!");
 
             foreach (Match match in matches)
             {
-                BigInteger resultado = FactorialRecursivo(decimal.Parse(match.Groups[1].Value));
+                string resultado = Factorial(decimal.Parse(match.Groups[1].Value));
 
-                operacion = operacion.Replace($"{match.Groups[1].Value}!", resultado.ToString());
+                operacion = operacion.Replace($"{match.Groups[1].Value}!", resultado);
             }
 
             return operacion;
         }
 
-        internal static BigInteger FactorialRecursivo(decimal number)
+        internal static string Factorial(decimal number)
         {
             if (number < 0)
             {
                 MessageBox.Show("Los números negativos no tienen factorial.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return BigInteger.Zero;
+                return BigInteger.Zero.ToString();
             }
 
             if (number % 1 != 0) // Verifica si el número es entero
             {
-                return (BigInteger)SpecialFunctions.Gamma((double)number + 1);
+                return SpecialFunctions.Gamma((double)number + 1).ToString();
             }
 
             BigInteger resultado = BigInteger.One;
@@ -223,7 +201,7 @@ namespace CalculadoraCientifica
                 resultado *= i;
             }
 
-            return resultado;
+            return resultado.ToString();
         }
 
         internal static string ElevaciónDeUnaPotencia(string operacion)
@@ -247,7 +225,7 @@ namespace CalculadoraCientifica
         internal static string ExpandirNotacionExponencial(string operacion)
         {
             // Expresión regular para detectar patrones de notación científica del tipo 1,23e+4
-            MatchCollection matches = Regex.Matches(operacion, @"(\d+(,\d+)?)[eE][+](\d+)");
+            MatchCollection matches = Regex.Matches(operacion, @"(-?\d+(,\d+)?)[e][+](\d+)");
 
             foreach (Match match in matches)
             {
@@ -264,9 +242,9 @@ namespace CalculadoraCientifica
             return operacion;
         }
 
-        internal static string calculateValorAbsoluto(string expresion)
+        internal static string calcularValorAbsoluto(string expresion)
         {
-            MatchCollection matches = Regex.Matches(expresion, @"\(-?(\d+(,\d+)?)\)abs");
+            MatchCollection matches = Regex.Matches(expresion, @"\(-?(\d+(,\d+)?)\)abs|-?(\d+(,\d+)?)abs");
 
             foreach(Match match in matches) 
             {
@@ -279,7 +257,7 @@ namespace CalculadoraCientifica
 
         internal static string CalcularLogaritmo(string expresion)
         {
-            MatchCollection matches = Regex.Matches(expresion, @"log\((\d+(,\d+)?)\)");
+            MatchCollection matches = Regex.Matches(expresion, @"log\((\d+(,\d+)?)\)|log(-?\d+(,\d+)?)");
 
             foreach ( Match match in matches)
             {
@@ -288,6 +266,35 @@ namespace CalculadoraCientifica
 
                 expresion = expresion.Replace(match.Value, resultado.ToString());
             }
+            return expresion;
+        }
+        internal static string CalcularLogaritmoNatural(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"In\((-?\d+(,\d+)?)\)|In(-?\d+(,\d+)?)");
+
+            foreach (Match match in matches)
+            {
+                double number = double.Parse(match.Groups[1].Value);
+                double resultado = Math.Log(number);
+
+                expresion = expresion.Replace(match.Value, resultado.ToString());
+            }
+            return expresion;
+        }
+
+        internal static string CalcularRestoMod(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"(-?\d+(,\d+)?)Mod(-?\d+(,\d+)?)");
+
+            foreach (Match match in matches)
+            {
+                decimal dividendo = decimal.Parse(match.Groups[1].Value);
+                decimal divisor = decimal.Parse(match.Groups[3].Value);
+                decimal resultado = dividendo % divisor;
+
+                expresion = expresion.Replace(match.Value, resultado.ToString());
+            }
+
             return expresion;
         }
     }

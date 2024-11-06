@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             btn2nd = new Button();
-            btnRaiz = new Button();
-            btnE = new Button();
+            btnPi = new Button();
+            btnBaseLogaritmos = new Button();
             btnCE = new Button();
             btnExp = new Button();
             btnValorAbsoluto = new Button();
@@ -48,7 +48,7 @@
             btnSix = new Button();
             btnFive = new Button();
             btnFour = new Button();
-            button30 = new Button();
+            btnPotencia10 = new Button();
             btnThree = new Button();
             btnTwo = new Button();
             btnOne = new Button();
@@ -56,14 +56,14 @@
             btnComa = new Button();
             btnZero = new Button();
             btnCambiarSigno = new Button();
-            button40 = new Button();
+            btnIn = new Button();
             btnDelete = new FontAwesome.Sharp.IconButton();
             btnIgual = new FontAwesome.Sharp.IconButton();
             btnMultiplications = new Button();
             btnSubtraction = new Button();
             btnAdd = new Button();
-            txtBoxContenedor = new TextBox();
-            button1 = new Button();
+            txtDisplay = new TextBox();
+            btnMod = new Button();
             txtFormula = new TextBox();
             SuspendLayout();
             // 
@@ -76,27 +76,29 @@
             btn2nd.TabIndex = 0;
             btn2nd.Text = "2^nd";
             btn2nd.UseVisualStyleBackColor = true;
+            btn2nd.Click += btn2nd_Click;
             // 
-            // btnRaiz
+            // btnPi
             // 
-            btnRaiz.Font = new Font("Century Gothic", 10.2F);
-            btnRaiz.Location = new Point(114, 155);
-            btnRaiz.Name = "btnRaiz";
-            btnRaiz.Size = new Size(87, 46);
-            btnRaiz.TabIndex = 1;
-            btnRaiz.Text = "√";
-            btnRaiz.UseVisualStyleBackColor = true;
-            btnRaiz.Click += btnRaiz_Click;
+            btnPi.Font = new Font("Century Gothic", 10.2F);
+            btnPi.Location = new Point(114, 155);
+            btnPi.Name = "btnPi";
+            btnPi.Size = new Size(87, 46);
+            btnPi.TabIndex = 1;
+            btnPi.Text = "π";
+            btnPi.UseVisualStyleBackColor = true;
+            btnPi.Click += btnRaiz_Click;
             // 
-            // btnE
+            // btnBaseLogaritmos
             // 
-            btnE.Font = new Font("Century Gothic", 10.2F);
-            btnE.Location = new Point(207, 155);
-            btnE.Name = "btnE";
-            btnE.Size = new Size(87, 46);
-            btnE.TabIndex = 2;
-            btnE.Text = "e";
-            btnE.UseVisualStyleBackColor = true;
+            btnBaseLogaritmos.Font = new Font("Century Gothic", 10.2F);
+            btnBaseLogaritmos.Location = new Point(207, 155);
+            btnBaseLogaritmos.Name = "btnBaseLogaritmos";
+            btnBaseLogaritmos.Size = new Size(87, 46);
+            btnBaseLogaritmos.TabIndex = 2;
+            btnBaseLogaritmos.Text = "e";
+            btnBaseLogaritmos.UseVisualStyleBackColor = true;
+            btnBaseLogaritmos.Click += btnBaseLogaritmos_Click;
             // 
             // btnCE
             // 
@@ -107,6 +109,7 @@
             btnCE.TabIndex = 3;
             btnCE.Text = "CE";
             btnCE.UseVisualStyleBackColor = true;
+            btnCE.Click += btnCE_Click;
             // 
             // btnExp
             // 
@@ -284,15 +287,16 @@
             btnFour.UseVisualStyleBackColor = true;
             btnFour.Click += btnFour_Click;
             // 
-            // button30
+            // btnPotencia10
             // 
-            button30.Font = new Font("Century Gothic", 10.2F);
-            button30.Location = new Point(21, 366);
-            button30.Name = "button30";
-            button30.Size = new Size(87, 46);
-            button30.TabIndex = 25;
-            button30.Text = "10x";
-            button30.UseVisualStyleBackColor = true;
+            btnPotencia10.Font = new Font("Century Gothic", 10.2F);
+            btnPotencia10.Location = new Point(21, 366);
+            btnPotencia10.Name = "btnPotencia10";
+            btnPotencia10.Size = new Size(87, 46);
+            btnPotencia10.TabIndex = 25;
+            btnPotencia10.Text = "10^x";
+            btnPotencia10.UseVisualStyleBackColor = true;
+            btnPotencia10.Click += button30_Click;
             // 
             // btnThree
             // 
@@ -371,15 +375,16 @@
             btnCambiarSigno.UseVisualStyleBackColor = true;
             btnCambiarSigno.Click += button39_Click;
             // 
-            // button40
+            // btnIn
             // 
-            button40.Font = new Font("Century Gothic", 10.2F);
-            button40.Location = new Point(21, 470);
-            button40.Name = "button40";
-            button40.Size = new Size(87, 46);
-            button40.TabIndex = 35;
-            button40.Text = "In";
-            button40.UseVisualStyleBackColor = true;
+            btnIn.Font = new Font("Century Gothic", 10.2F);
+            btnIn.Location = new Point(21, 470);
+            btnIn.Name = "btnIn";
+            btnIn.Size = new Size(87, 46);
+            btnIn.TabIndex = 35;
+            btnIn.Text = "In";
+            btnIn.UseVisualStyleBackColor = true;
+            btnIn.Click += btnIn_Click;
             // 
             // btnDelete
             // 
@@ -438,25 +443,25 @@
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
-            // txtBoxContenedor
+            // txtDisplay
             // 
-            txtBoxContenedor.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtBoxContenedor.Location = new Point(21, 103);
-            txtBoxContenedor.Name = "txtBoxContenedor";
-            txtBoxContenedor.Size = new Size(459, 36);
-            txtBoxContenedor.TabIndex = 50;
-            txtBoxContenedor.TextAlign = HorizontalAlignment.Right;
+            txtDisplay.Font = new Font("Century Gothic", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtDisplay.Location = new Point(21, 103);
+            txtDisplay.Name = "txtDisplay";
+            txtDisplay.Size = new Size(459, 36);
+            txtDisplay.TabIndex = 50;
+            txtDisplay.TextAlign = HorizontalAlignment.Right;
             // 
-            // button1
+            // btnMod
             // 
-            button1.Font = new Font("Century Gothic", 10.2F);
-            button1.Location = new Point(393, 207);
-            button1.Name = "button1";
-            button1.Size = new Size(87, 46);
-            button1.TabIndex = 51;
-            button1.Text = "mod";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnMod.Font = new Font("Century Gothic", 10.2F);
+            btnMod.Location = new Point(393, 207);
+            btnMod.Name = "btnMod";
+            btnMod.Size = new Size(87, 46);
+            btnMod.TabIndex = 51;
+            btnMod.Text = "mod";
+            btnMod.UseVisualStyleBackColor = true;
+            btnMod.Click += button1_Click;
             // 
             // txtFormula
             // 
@@ -475,8 +480,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(506, 546);
             Controls.Add(txtFormula);
-            Controls.Add(button1);
-            Controls.Add(txtBoxContenedor);
+            Controls.Add(btnMod);
+            Controls.Add(txtDisplay);
             Controls.Add(btnAdd);
             Controls.Add(btnSubtraction);
             Controls.Add(btnMultiplications);
@@ -485,7 +490,7 @@
             Controls.Add(btnComa);
             Controls.Add(btnZero);
             Controls.Add(btnCambiarSigno);
-            Controls.Add(button40);
+            Controls.Add(btnIn);
             Controls.Add(btnThree);
             Controls.Add(btnTwo);
             Controls.Add(btnOne);
@@ -493,7 +498,7 @@
             Controls.Add(btnSix);
             Controls.Add(btnFive);
             Controls.Add(btnFour);
-            Controls.Add(button30);
+            Controls.Add(btnPotencia10);
             Controls.Add(btnNine);
             Controls.Add(btnEight);
             Controls.Add(btnSeven);
@@ -508,8 +513,8 @@
             Controls.Add(btnInversoMultiplicativo);
             Controls.Add(btnXsobre2);
             Controls.Add(btnCE);
-            Controls.Add(btnE);
-            Controls.Add(btnRaiz);
+            Controls.Add(btnBaseLogaritmos);
+            Controls.Add(btnPi);
             Controls.Add(btn2nd);
             Name = "Form1";
             Text = "Calculadora Científica";
@@ -520,8 +525,8 @@
         #endregion
 
         private Button btn2nd;
-        private Button btnRaiz;
-        private Button btnE;
+        private Button btnPi;
+        private Button btnBaseLogaritmos;
         private Button btnCE;
         private Button button5;
         private Button button6;
@@ -541,7 +546,7 @@
         private Button btnSix;
         private Button btnFive;
         private Button btnFour;
-        private Button button30;
+        private Button btnPotencia10;
         private Button btnThree;
         private Button btnTwo;
         private Button btnOne;
@@ -549,14 +554,14 @@
         private Button btnComa;
         private Button btnZero;
         private Button btnCambiarSigno;
-        private Button button40;
+        private Button btnIn;
         private FontAwesome.Sharp.IconButton btnDelete;
         private FontAwesome.Sharp.IconButton btnIgual;
         private Button btnMultiplications;
         private Button btnSubtraction;
         private Button btnAdd;
-        private TextBox txtBoxContenedor;
-        private Button button1;
+        private TextBox txtDisplay;
+        private Button btnMod;
         private TextBox txtFormula;
     }
 }
