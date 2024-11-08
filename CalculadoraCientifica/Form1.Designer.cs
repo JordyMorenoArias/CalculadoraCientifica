@@ -206,7 +206,7 @@
             btnRaízCuadrada.Name = "btnRaízCuadrada";
             btnRaízCuadrada.Size = new Size(87, 46);
             btnRaízCuadrada.TabIndex = 10;
-            btnRaízCuadrada.Text = "2^√x";
+            btnRaízCuadrada.Text = "2√x";
             btnRaízCuadrada.UseVisualStyleBackColor = true;
             btnRaízCuadrada.Click += btnRaízCuadrada_Click;
             // 

@@ -215,26 +215,49 @@ namespace CalculadoraCientifica
 
                 operacion = operacion.Replace(" ", "");
 
-                // (4 + 3) = 7
+                // log(10) ≈ 1,3010
+                // Ejemplo: Si operacion es "10", el resultado será el logaritmo de 10, que es aproximadamente "1,3010".
+                operacion = Calculadora.CalcularLogaritmo(operacion);
+
+                // In(10) ≈ 2.3026
+                // Ejemplo: Si operacion es "10", el resultado será el logaritmo natural de 10, que es aproximadamente "2.3026".
+                operacion = Calculadora.CalcularLogaritmoNatural(operacion);
+
+                // Calcula el valor absoluto de un número dado.
+                // Ejemplo: Si operacion es "-20", el resultado será "20".
+                operacion = Calculadora.calcularValorAbsoluto(operacion);
+
+                // Calcula la raíz cuadrada de cada número en la operación.
+                // Ejemplo: Si operacion es "16", el resultado será "4".
+                operacion = Calculadora.CalcularRaicesCuadradas(operacion);
+
+                operacion = Calculadora.CalcularRaicesCubica(operacion);
+
+                // Busca y evalúa expresiones dentro de paréntesis.
+                // Ejemplo: Si operacion es "(4 + 3)", el resultado será "7".
                 operacion = Calculadora.BuscarParentesis(operacion);
-                // Ejemplo: Si operacion es "4 + 3", el resultado será "7".
 
-                // 3.14e2 = 314
-                operacion = Calculadora.ExpandirNotacionExponencial(operacion);
+                // 3.14e2 = 31400
                 // Ejemplo: Si operacion es "3.14e2", el resultado será "314" (3.14 * 10^2).
-
-                // 2^3 = 8
-                operacion = Calculadora.ElevaciónDeUnaPotencia(operacion);
-                // Ejemplo: Si operacion es "2^3", el resultado será "8" (2 elevado a 3).
-
-                // 5 % 2 = 1
-                operacion = Calculadora.CalcularRestoMod(operacion);
-                // Ejemplo: Si operacion es "5 % 2", el resultado será "1".
+                operacion = Calculadora.ExpandirNotacionExponencial(operacion);
 
                 // 5! = 120
-                operacion = Calculadora.CalcularFactorial(operacion);
                 // Ejemplo: Si operacion es "5", el resultado será "120" (porque 5! = 5 * 4 * 3 * 2 * 1).
+                operacion = Calculadora.CalcularFactorial(operacion);
 
+                operacion = Calculadora.CalcularExponencial(operacion);
+
+                // 2^3 = 8
+                // Ejemplo: Si operacion es "2^3", el resultado será "8" (2 elevado a 3).
+                operacion = Calculadora.ElevaciónDeUnaPotencia(operacion);
+
+                operacion = Calculadora.CalcularQuintaRaiz(operacion);
+
+                operacion = Calculadora.CalcularLogaritmoBaseY(operacion);
+
+                // 5 % 2 = 1
+                // Ejemplo: Si operacion es "5 % 2", el resultado será "1".
+                operacion = Calculadora.CalcularRestoMod(operacion);
 
                 // Una vez resueltos los paréntesis, calcula el resultado final
                 decimal resultadoFinal = Calculadora.ResolverOperacion(operacion);
@@ -364,24 +387,33 @@ namespace CalculadoraCientifica
 
         private void btnXsobreY_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtDisplay.Text) || txtDisplay.Text[txtDisplay.Text.Length - 1] == ')')
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]))
+                if (txtDisplay.Text[txtDisplay.Text.Length - 1] == ')' || char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]))
                 {
-                    txtDisplay.Text += "^";
+                    string tipo = btnXsobreY.Text == "x^y" ? "^" : " yroot ";
+                    txtDisplay.Text += tipo;
                 }
             }
+
+            CambiarEtiquetasAModoNormal();
         }
 
         private void btnXsobre2_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                if (char.IsDigit(txtDisplay.Text[txtDisplay.Text.Length - 1]) || txtDisplay.Text[txtDisplay.Text.Length - 1] == ')')
+                // Verifica si el último carácter es un dígito o un paréntesis de cierre
+                char ultimoCaracter = txtDisplay.Text[txtDisplay.Text.Length - 1];
+                if (char.IsDigit(ultimoCaracter) || ultimoCaracter == ')')
                 {
-                    txtDisplay.Text += "^2";
+                    // Añade "^2" o "^3" dependiendo del texto del botón
+                    string exponente = btnXsobre2.Text == "x^2" ? "^2" : "^3";
+                    txtDisplay.Text += exponente;
                 }
             }
+
+            CambiarEtiquetasAModoNormal();
         }
 
         private void btnExp_Click(object sender, EventArgs e)
@@ -501,12 +533,18 @@ namespace CalculadoraCientifica
 
                 // Eliminar espacios en blanco solo en los extremos
                 txtDisplay.Text = txtDisplay.Text.TrimEnd();
-
                 char lastChar = txtDisplay.Text[txtDisplay.Text.Length - 1];
-                // Verificar si el último carácter es +, - o *
-                if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
+
+                // Verificar si la expresión contiene "Mod" al final
+                if (Regex.IsMatch(txtDisplay.Text, @"logBase$"))
                 {
-                    // Reemplazar el último carácter con "*"
+                    // Reemplazar "Mod" por "logBase" al final de la expresión
+                    txtDisplay.Text = Regex.Replace(txtDisplay.Text, @"logBase$", "Mod ");
+                }
+                // Verificar si el último carácter es +, -, *, o /
+                else if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
+                {
+                    // Reemplazar el último carácter con "logBase"
                     txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1) + "Mod ";
                 }
                 else
@@ -519,16 +557,10 @@ namespace CalculadoraCientifica
         private void btnRaízCuadrada_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void button35_Click(object sender, EventArgs e)
-        {
             if (!string.IsNullOrEmpty(txtDisplay.Text))
             {
-                // Obtener el texto del display
                 string expresion = txtDisplay.Text;
 
-                // Buscar el último número en la cadena usando la expresión regular
                 Match match = Regex.Match(expresion, @"-?\d+(,\d+)?$");
 
                 if (match.Success)
@@ -536,10 +568,69 @@ namespace CalculadoraCientifica
                     string valor = match.Value; // Valor del número encontrado
                     int inicioValor = match.Index; // Índice donde comienza el número
 
-                    // Reemplazar el último número con "(valor)abs"
-                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"log({valor})";
+                    if (btnRaízCuadrada.Text == "2√x")
+                    {
+                        txtDisplay.Text = expresion.Substring(0, inicioValor) + $"√({valor})";
+                    }
+                    else
+                    {
+                        txtDisplay.Text = expresion.Substring(0, inicioValor) + $"cuberoot({valor})";
+                    }
                 }
             }
+
+            CambiarEtiquetasAModoNormal();
+        }
+
+        private void button35_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtDisplay.Text))
+            {
+                if (btnLog.Text == "Log")
+                {
+                    // Obtener el texto del display
+                    string expresion = txtDisplay.Text;
+
+                    // Buscar el último número en la cadena usando la expresión regular
+                    Match match = Regex.Match(expresion, @"-?\d+(,\d+)?$");
+
+                    if (match.Success)
+                    {
+                        string valor = match.Value; // Valor del número encontrado
+                        int inicioValor = match.Index; // Índice donde comienza el número
+
+                        txtDisplay.Text = expresion.Substring(0, inicioValor) + $"log({valor})";
+                    }
+                }
+                else
+                {
+                    // Eliminar espacios en blanco solo en los extremos
+                    txtDisplay.Text = txtDisplay.Text.TrimEnd();
+
+                    char lastChar = txtDisplay.Text[txtDisplay.Text.Length - 1];
+
+                    // Verificar si la expresión contiene "Mod" al final
+                    if (Regex.IsMatch(txtDisplay.Text, @"Mod$"))
+                    {
+                        // Reemplazar "Mod" por "logBase" al final de la expresión
+                        txtDisplay.Text = Regex.Replace(txtDisplay.Text, @"Mod$", "logBase ");
+                    }
+                    // Verificar si el último carácter es +, -, *, o /
+                    else if (lastChar == '+' || lastChar == '-' || lastChar == '*' || lastChar == '/')
+                    {
+                        // Reemplazar el último carácter con "logBase"
+                        txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1) + "logBase ";
+                    }
+                    else
+                    {
+                        // Agregar "logBase" al final de la expresión
+                        txtDisplay.Text += " logBase ";
+                    }
+
+                }
+            }
+
+            CambiarEtiquetasAModoNormal();
         }
 
         private void btnCE_Click(object sender, EventArgs e)
@@ -577,10 +668,18 @@ namespace CalculadoraCientifica
                     string valor = match.Value; // Valor del número encontrado
                     int inicioValor = match.Index; // Índice donde comienza el número
 
-                    // Reemplazar el último número con "(valor)abs"
-                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"In({valor})";
+                    if (btnIn.Text == "In")
+                    {
+                        txtDisplay.Text = expresion.Substring(0, inicioValor) + $"In({valor})";
+                    }
+                    else
+                    {
+                        txtDisplay.Text = expresion.Substring(0, inicioValor) + $"e^({valor})";
+                    }
                 }
             }
+
+            CambiarEtiquetasAModoNormal();
         }
 
         private void button30_Click(object sender, EventArgs e)
@@ -598,15 +697,51 @@ namespace CalculadoraCientifica
                     string valor = match.Value; // Valor del número encontrado
                     int inicioValor = match.Index; // Índice donde comienza el número
 
-                    // Reemplazar el último número con "(valor)abs"
-                    txtDisplay.Text = expresion.Substring(0, inicioValor) + $"10^({valor})";
+                    if (btnPotencia10.Text == "10^x")
+                    {
+                        txtDisplay.Text = expresion.Substring(0, inicioValor) + $"10^({valor})";
+                    }
+                    else
+                    {
+                        txtDisplay.Text = expresion.Substring(0, inicioValor) + $"2^({valor})";
+                    }
+
                 }
             }
+
+            CambiarEtiquetasAModoNormal();
         }
 
         private void btn2nd_Click(object sender, EventArgs e)
         {
+            if (btnXsobre2.Text == "x^2")
+            {
+                CambiarEtiquetasAModoAlternativo();
+            }
+            else
+            {
+                CambiarEtiquetasAModoNormal();
+            }
+        }
 
+        private void CambiarEtiquetasAModoAlternativo()
+        {
+            btnXsobre2.Text = "x^3";
+            btnRaízCuadrada.Text = "3√x";
+            btnXsobreY.Text = "y√x";
+            btnPotencia10.Text = "2^x";
+            btnLog.Text = "logyX";
+            btnIn.Text = "e^x";
+        }
+
+        private void CambiarEtiquetasAModoNormal()
+        {
+            btnXsobre2.Text = "x^2";
+            btnRaízCuadrada.Text = "2√x";
+            btnXsobreY.Text = "x^y";
+            btnPotencia10.Text = "10^x";
+            btnLog.Text = "log";
+            btnIn.Text = "in";
         }
     }
 }

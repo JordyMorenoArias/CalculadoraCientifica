@@ -87,7 +87,7 @@ namespace CalculadoraCientifica
             MatchCollection matches = Regex.Matches(expresion, @"(-?\d+(,\d+)?)");
             List<string> expresiones = new List<string>();
 
-            foreach (Match match in matches) 
+            foreach (Match match in matches)
             {
                 expresiones.Add(match.Value);
             }
@@ -116,27 +116,19 @@ namespace CalculadoraCientifica
         // Agrega paréntesis de cierre si falta alguno al final
         internal static string BuscarParentesis(string operacion)
         {
-            // log(10) ≈ 1,3010
-            operacion = Calculadora.CalcularLogaritmo(operacion);
-            // Ejemplo: Si operacion es "10", el resultado será el logaritmo de 10, que es aproximadamente "1,3010".
 
-            // In(10) ≈ 2.3026
-            operacion = Calculadora.CalcularLogaritmoNatural(operacion);
-            // Ejemplo: Si operacion es "10", el resultado será el logaritmo natural de 10, que es aproximadamente "2.3026".
-
-            // abs(-20) = 20
-            operacion = Calculadora.calcularValorAbsoluto(operacion);
-            // Ejemplo: Si operacion es "-20", el resultado será "20".
-
-            int balance = 0;
-            for (int i = 0; i < operacion.Length; i++)
+            if (operacion.Contains("("))
             {
-                if (operacion[i] == '(') balance++;
-                else if (operacion[i] == ')') balance--;
-            }
-            if (balance > 0)
-            {
-                operacion += new string(')', balance); // Añadir los paréntesis de cierre que faltan
+                int balance = 0;
+                for (int i = 0; i < operacion.Length; i++)
+                {
+                    if (operacion[i] == '(') balance++;
+                    else if (operacion[i] == ')') balance--;
+                }
+                if (balance > 0)
+                {
+                    operacion += new string(')', balance); // Añadir los paréntesis de cierre que faltan
+                }
             }
 
             // Método para resolver operaciones con paréntesis desde los más internos
@@ -150,10 +142,22 @@ namespace CalculadoraCientifica
                     // Extrae la operación dentro del paréntesis
                     string operacionDentroParentesis = operacion.Substring(start + 1, end - start - 1);
 
-                    operacionDentroParentesis = CalcularFactorial(operacionDentroParentesis);
-                    operacionDentroParentesis = ElevaciónDeUnaPotencia(operacionDentroParentesis);
-                    operacionDentroParentesis = ExpandirNotacionExponencial(operacionDentroParentesis);
-                    operacionDentroParentesis = CalcularRestoMod(operacionDentroParentesis);
+                    // 5! = 120
+                    operacionDentroParentesis = Calculadora.CalcularFactorial(operacionDentroParentesis);
+                    // Ejemplo: Si operacion es "5", el resultado será "120" (porque 5! = 5 * 4 * 3 * 2 * 1).
+
+                    // 3.14e2 = 31400
+                    operacionDentroParentesis = Calculadora.ExpandirNotacionExponencial(operacionDentroParentesis);
+                    // Ejemplo: Si operacion es "3.14e2", el resultado será "314" (3.14 * 10^2).
+
+                    // 2^3 = 8
+                    operacionDentroParentesis = Calculadora.ElevaciónDeUnaPotencia(operacionDentroParentesis);
+                    // Ejemplo: Si operacion es "2^3", el resultado será "8" (2 elevado a 3).
+
+                    // 5 % 2 = 1
+                    operacionDentroParentesis = Calculadora.CalcularRestoMod(operacionDentroParentesis);
+                    // Ejemplo: Si operacion es "5 % 2", el resultado será "1".
+
 
                     // Calcula el resultado de la operación dentro del paréntesis
                     decimal resultadoParentesis = ResolverOperacion(operacionDentroParentesis);
@@ -207,9 +211,9 @@ namespace CalculadoraCientifica
         internal static string ElevaciónDeUnaPotencia(string operacion)
         {
 
-            MatchCollection matches = Regex.Matches(operacion, @"(-?\d+(,\d+)?)\^(\d)");   
+            MatchCollection matches = Regex.Matches(operacion, @"(-?\d+(,\d+)?)\^(\d)");
 
-            foreach (Match match in matches) 
+            foreach (Match match in matches)
             {
                 double a = double.Parse(match.Groups[1].Value);
                 double n = double.Parse(match.Groups[3].Value);
@@ -246,12 +250,12 @@ namespace CalculadoraCientifica
         {
             MatchCollection matches = Regex.Matches(expresion, @"\(-?(\d+(,\d+)?)\)abs|-?(\d+(,\d+)?)abs");
 
-            foreach(Match match in matches) 
+            foreach (Match match in matches)
             {
                 decimal valor = Math.Abs(decimal.Parse(match.Groups[1].Value));
 
                 expresion = expresion.Replace(match.Value, valor.ToString());
-            } 
+            }
             return expresion;
         }
 
@@ -259,7 +263,7 @@ namespace CalculadoraCientifica
         {
             MatchCollection matches = Regex.Matches(expresion, @"log\((\d+(,\d+)?)\)|log(-?\d+(,\d+)?)");
 
-            foreach ( Match match in matches)
+            foreach (Match match in matches)
             {
                 double number = double.Parse(match.Groups[1].Value);
                 double resultado = Math.Log10(number);
@@ -268,6 +272,7 @@ namespace CalculadoraCientifica
             }
             return expresion;
         }
+
         internal static string CalcularLogaritmoNatural(string expresion)
         {
             MatchCollection matches = Regex.Matches(expresion, @"In\((-?\d+(,\d+)?)\)|In(-?\d+(,\d+)?)");
@@ -282,6 +287,23 @@ namespace CalculadoraCientifica
             return expresion;
         }
 
+        internal static string CalcularLogaritmoBaseY(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"(-?\d+(,\d+)?)logBase(-?\d+(,\d+)?)");
+
+            foreach (Match match in matches)
+            {
+                double x = double.Parse(match.Groups[1].Value);
+                double y = double.Parse(match.Groups[3].Value);
+
+                double resultado = Math.Log(x) / Math.Log(y);
+
+                expresion = expresion.Replace(match.Value, resultado.ToString());
+            }
+
+            return expresion;
+        }
+
         internal static string CalcularRestoMod(string expresion)
         {
             MatchCollection matches = Regex.Matches(expresion, @"(-?\d+(,\d+)?)Mod(-?\d+(,\d+)?)");
@@ -291,6 +313,70 @@ namespace CalculadoraCientifica
                 decimal dividendo = decimal.Parse(match.Groups[1].Value);
                 decimal divisor = decimal.Parse(match.Groups[3].Value);
                 decimal resultado = dividendo % divisor;
+
+                expresion = expresion.Replace(match.Value, resultado.ToString());
+            }
+
+            return expresion;
+        }
+
+        internal static string CalcularRaicesCuadradas(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"√\((-?\d+(,\d+)?)\)");
+
+            foreach (Match match in matches)
+            {
+                double numero = double.Parse(match.Groups[1].Value);
+
+                double resultado = Math.Sqrt(numero);
+
+                expresion = expresion.Replace(match.Value, resultado.ToString());
+            }
+
+            return expresion;
+        }
+
+        internal static string CalcularRaicesCubica(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"cuberoot\((-?\d+(,\d+)?)\)");
+
+            foreach (Match match in matches)
+            {
+                double numero = double.Parse(match.Groups[1].Value);
+
+                double resultado = Math.Pow(numero, 1.0 / 3.0);
+
+                expresion = expresion.Replace(match.Value, resultado.ToString());
+            }
+
+            return expresion;
+        }
+
+        internal static string CalcularQuintaRaiz(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"(-?\d+(,\d+)?)yroot(-?\d+(,\d+)?)");
+
+            foreach (Match match in matches)
+            {
+                double numero1 = double.Parse(match.Groups[1].Value);
+                double numero2 = double.Parse(match.Groups[3].Value);
+
+                double result = Math.Pow(numero1, 1.0 / numero2);
+
+                expresion = expresion.Replace(match.Value, result.ToString());
+            }
+
+            return expresion;
+        }
+
+        internal static string CalcularExponencial(string expresion)
+        {
+            MatchCollection matches = Regex.Matches(expresion, @"e^\((-?\d+(,\d+)?)\)");
+
+            foreach (Match match in matches)
+            {
+                double numero = double.Parse(match.Groups[1].Value);
+                double resultado = Math.Exp(numero);
 
                 expresion = expresion.Replace(match.Value, resultado.ToString());
             }
