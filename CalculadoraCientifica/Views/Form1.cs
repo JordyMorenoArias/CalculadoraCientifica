@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CalculadoraCientifica.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Eventing.Reader;
 using System.Text;
@@ -231,6 +232,8 @@ namespace CalculadoraCientifica
                 // Ejemplo: Si operacion es "16", el resultado será "4".
                 operacion = Calculadora.CalcularRaicesCuadradas(operacion);
 
+                // Calcula la raíz cúbica de un número.
+                // Ejemplo: Si operacion es "27", el resultado será "3".
                 operacion = Calculadora.CalcularRaicesCubica(operacion);
 
                 // Busca y evalúa expresiones dentro de paréntesis.
@@ -245,14 +248,20 @@ namespace CalculadoraCientifica
                 // Ejemplo: Si operacion es "5", el resultado será "120" (porque 5! = 5 * 4 * 3 * 2 * 1).
                 operacion = Calculadora.CalcularFactorial(operacion);
 
+                // Calcula la función exponencial e^x.
+                // Ejemplo: Si operacion es "2", el resultado será aproximadamente "7.3891" (e^2).
                 operacion = Calculadora.CalcularExponencial(operacion);
 
                 // 2^3 = 8
                 // Ejemplo: Si operacion es "2^3", el resultado será "8" (2 elevado a 3).
                 operacion = Calculadora.ElevaciónDeUnaPotencia(operacion);
 
+                // Calcula la quinta raíz de un número.
+                // Ejemplo: Si operacion es "32", el resultado será "2" (ya que 2^5 = 32).
                 operacion = Calculadora.CalcularQuintaRaiz(operacion);
 
+                // Calcula el logaritmo de un número en una base específica Y.
+                // Ejemplo: Si operacion es "log base 2 de 8", el resultado será "3" (ya que 2^3 = 8).
                 operacion = Calculadora.CalcularLogaritmoBaseY(operacion);
 
                 // 5 % 2 = 1

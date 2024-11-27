@@ -10,7 +10,7 @@ using MathNet.Numerics.Distributions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace CalculadoraCientifica
+namespace CalculadoraCientifica.Models
 {
     internal class Calculadora
     {
@@ -105,7 +105,7 @@ namespace CalculadoraCientifica
                 if (entrada[i] == '+' ||
                     entrada[i] == '*' ||
                     entrada[i] == '/' ||
-                    (entrada[i] == '-' && (i != 0 && char.IsDigit(entrada[i - 1]))))
+                    entrada[i] == '-' && i != 0 && char.IsDigit(entrada[i - 1]))
                 {
                     operadores.Add(entrada[i]); // Agregar el operador a la lista
                 }
@@ -143,19 +143,19 @@ namespace CalculadoraCientifica
                     string operacionDentroParentesis = operacion.Substring(start + 1, end - start - 1);
 
                     // 5! = 120
-                    operacionDentroParentesis = Calculadora.CalcularFactorial(operacionDentroParentesis);
+                    operacionDentroParentesis = CalcularFactorial(operacionDentroParentesis);
                     // Ejemplo: Si operacion es "5", el resultado será "120" (porque 5! = 5 * 4 * 3 * 2 * 1).
 
                     // 3.14e2 = 31400
-                    operacionDentroParentesis = Calculadora.ExpandirNotacionExponencial(operacionDentroParentesis);
+                    operacionDentroParentesis = ExpandirNotacionExponencial(operacionDentroParentesis);
                     // Ejemplo: Si operacion es "3.14e2", el resultado será "314" (3.14 * 10^2).
 
                     // 2^3 = 8
-                    operacionDentroParentesis = Calculadora.ElevaciónDeUnaPotencia(operacionDentroParentesis);
+                    operacionDentroParentesis = ElevaciónDeUnaPotencia(operacionDentroParentesis);
                     // Ejemplo: Si operacion es "2^3", el resultado será "8" (2 elevado a 3).
 
                     // 5 % 2 = 1
-                    operacionDentroParentesis = Calculadora.CalcularRestoMod(operacionDentroParentesis);
+                    operacionDentroParentesis = CalcularRestoMod(operacionDentroParentesis);
                     // Ejemplo: Si operacion es "5 % 2", el resultado será "1".
 
 
