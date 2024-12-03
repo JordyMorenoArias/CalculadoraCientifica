@@ -82,9 +82,9 @@ namespace CalculadoraCientifica.Models
             return total;
         }
 
-        public static List<string> ObtenerExpresiones(string expresion)
+        internal static List<string> ObtenerExpresiones(string expresion)
         {
-            MatchCollection matches = Regex.Matches(expresion, @"(-?\d+(,\d+)?)");
+            MatchCollection matches = Regex.Matches(expresion, @"(?<!\d)(-?\d+(,\d+)?)");
             List<string> expresiones = new List<string>();
 
             foreach (Match match in matches)
@@ -95,7 +95,7 @@ namespace CalculadoraCientifica.Models
             return expresiones;
         }
 
-        public static List<char> ObtenerOperadores(string entrada)
+        internal static List<char> ObtenerOperadores(string entrada)
         {
             List<char> operadores = new List<char>();
 
@@ -112,24 +112,38 @@ namespace CalculadoraCientifica.Models
             }
             return operadores;
         }
+        internal static string CorregirParentesis(string expresion)
+        {
+            // Elimina los espacios al final de la expresión
+            expresion = expresion.TrimEnd();
+
+            // Verifica si el último carácter es un dígito
+            if (expresion.Length > 0 && char.IsDigit(expresion[expresion.Length - 1]))
+            {
+                // Cuenta los paréntesis abiertos y cerrados en la expresión
+                MatchCollection openParentheses = Regex.Matches(expresion, @"\(");
+                MatchCollection closeParentheses = Regex.Matches(expresion, @"\)");
+
+                // Calcula la cantidad de paréntesis de cierre que faltan
+                int closeParenthesesRequired = openParentheses.Count - closeParentheses.Count;
+
+                // Si faltan paréntesis de cierre, los agrega al final
+                if (closeParenthesesRequired > 0)
+                {
+                    for (int i = 0; i < closeParenthesesRequired; i++)
+                    {
+                        expresion += ")";
+                    }
+                }
+            }
+
+            // Retorna la expresión corregida
+            return expresion;
+        }
 
         // Agrega paréntesis de cierre si falta alguno al final
         internal static string BuscarParentesis(string operacion)
         {
-
-            if (operacion.Contains("("))
-            {
-                int balance = 0;
-                for (int i = 0; i < operacion.Length; i++)
-                {
-                    if (operacion[i] == '(') balance++;
-                    else if (operacion[i] == ')') balance--;
-                }
-                if (balance > 0)
-                {
-                    operacion += new string(')', balance); // Añadir los paréntesis de cierre que faltan
-                }
-            }
 
             // Método para resolver operaciones con paréntesis desde los más internos
             while (operacion.Contains('('))
@@ -157,7 +171,6 @@ namespace CalculadoraCientifica.Models
                     // 5 % 2 = 1
                     operacionDentroParentesis = CalcularRestoMod(operacionDentroParentesis);
                     // Ejemplo: Si operacion es "5 % 2", el resultado será "1".
-
 
                     // Calcula el resultado de la operación dentro del paréntesis
                     decimal resultadoParentesis = ResolverOperacion(operacionDentroParentesis);

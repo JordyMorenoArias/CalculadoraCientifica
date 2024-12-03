@@ -23,7 +23,14 @@ namespace CalculadoraCientifica
 
         private void btnOne_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "1";
+            if (txtDisplay.Text.TrimEnd()[txtDisplay.Text.Length - 1] == ')')
+            {
+                txtDisplay.Text += "* 1";
+            }
+            else
+            {
+                txtDisplay.Text += "1";
+            }
         }
 
         private void btnTwo_Click(object sender, EventArgs e)
@@ -188,31 +195,31 @@ namespace CalculadoraCientifica
         {
             try
             {
-                string operacion = txtDisplay.Text;
+                string operacion = txtDisplay.Text.TrimEnd();
 
                 // Asegúrate de que la cadena no esté vacía antes de realizar el bucle
                 if (!string.IsNullOrEmpty(operacion))
                 {
-                    for (int i = operacion.Length - 1; i >= 0; i--)
+                    // Verificar el último carácter de la cadena
+                    char ultimoCaracter = operacion[operacion.Length - 1];
+
+                    if (!char.IsDigit(ultimoCaracter))  // Si el último carácter no es un dígito
                     {
-                        if (char.IsDigit(operacion[i]))
+                        // Verificar si el último carácter es un operador o un paréntesis
+                        if (!char.IsDigit(ultimoCaracter))
                         {
-                            // Si encontramos un dígito, no hacemos nada y salimos del bucle
-                            break;
-                        }
-                        else if (operacion[i] == '+' || operacion[i] == '-' || operacion[i] == '*' || operacion[i] == '/')
-                        {
-                            // Si encontramos un operador, agregamos un '0' al final de la cadena y salimos del bucle
-                            operacion += '0';
-                            break;
+                            if(ultimoCaracter == '(')
+                                operacion += '0';  // Agregar '0' al final
+                            else
+                                operacion += " 0";  // Agregar '0' al final 
                         }
                     }
                 }
 
-                txtDisplay.Text = operacion;  // Actualizamos txtBoxContenedor antes de llamar al método
-                btnParéntesisCierre_Click(sender, e);
+                operacion = Calculadora.CorregirParentesis(operacion);
 
-                txtFormula.Text = txtDisplay.Text + " = ";
+                // Mostramos la operación completa en txtFormula con un '=' al final
+                txtFormula.Text = operacion + " = ";
 
                 operacion = operacion.Replace(" ", "");
 
@@ -292,37 +299,7 @@ namespace CalculadoraCientifica
 
         private void btnParéntesisCierre_Click(object sender, EventArgs e)
         {
-            if (txtDisplay.Text.Length > 0 &&
-                txtDisplay.Text[txtDisplay.Text.Length - 2] != '-' &&
-                txtDisplay.Text[txtDisplay.Text.Length - 2] != '+' &&
-                txtDisplay.Text[txtDisplay.Text.Length - 2] != '*' &&
-                txtDisplay.Text[txtDisplay.Text.Length - 2] != '/' &&
-                txtDisplay.Text[txtDisplay.Text.Length - 2] != 'd')
-            {
-                int openParenthesesCount = 0;
-                int closeParenthesesNeeded = 0;
-
-                for (int i = 0; i < txtDisplay.Text.Length; i++)
-                {
-                    if (txtDisplay.Text[i] == '(')
-                    {
-                        openParenthesesCount++;
-                    }
-                    else if (txtDisplay.Text[i] == ')')
-                    {
-                        openParenthesesCount--;
-                    }
-                }
-
-                // Si openParenthesesCount es positivo, significa que hay paréntesis de apertura sin cerrar
-                closeParenthesesNeeded = openParenthesesCount;
-
-                for (int i = 0; i < closeParenthesesNeeded; i++)
-                {
-                    txtDisplay.Text += ")";
-                }
-            }
-
+            txtDisplay.Text = Calculadora.CorregirParentesis(txtDisplay.Text);
         }
 
         private void btnParéntesisApertura_Click(object sender, EventArgs e)
