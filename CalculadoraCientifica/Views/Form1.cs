@@ -16,61 +16,65 @@ namespace CalculadoraCientifica
             InitializeComponent();
         }
 
-        private void btnZero_Click(object sender, EventArgs e)
+        private void AddNumberToDisplay(string number)
         {
-            txtDisplay.Text += "0";
+            if (txtDisplay.Text.Length > 0 && txtDisplay.Text.TrimEnd()[txtDisplay.Text.Length - 1] == ')')
+            {
+                txtDisplay.Text += $" * {number}";
+            }
+            else
+            {
+                txtDisplay.Text += number;
+            }
         }
 
         private void btnOne_Click(object sender, EventArgs e)
         {
-            if (txtDisplay.Text.TrimEnd()[txtDisplay.Text.Length - 1] == ')')
-            {
-                txtDisplay.Text += "* 1";
-            }
-            else
-            {
-                txtDisplay.Text += "1";
-            }
+            AddNumberToDisplay("1");
         }
 
         private void btnTwo_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "2";
+            AddNumberToDisplay("2");
         }
 
         private void btnThree_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "3";
+            AddNumberToDisplay("3");
         }
 
         private void btnFour_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "4";
+            AddNumberToDisplay("4");
         }
 
         private void btnFive_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "5";
+            AddNumberToDisplay("5");
         }
 
         private void btnSix_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "6";
+            AddNumberToDisplay("6");
         }
 
         private void btnSeven_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "7";
+            AddNumberToDisplay("7");
         }
 
         private void btnEight_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "8";
+            AddNumberToDisplay("8");
         }
 
         private void btnNine_Click(object sender, EventArgs e)
         {
-            txtDisplay.Text += "9";
+            AddNumberToDisplay("9");
+        }
+        private void btnZero_Click(object sender, EventArgs e)
+        {
+            AddNumberToDisplay("0");
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
